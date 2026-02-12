@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jelou"
+version = "0.1.0"
+description = "Conversión de IPA a representación fonética legible para hispanohablantes"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Nicolás" }
+]
+
+dependencies = []
+
+[project.scripts]
+jelou = "jelou.cli:main"
