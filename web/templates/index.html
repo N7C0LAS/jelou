@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jelou - Pronunciación de Inglés para Hispanohablantes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 py-6">
+            <h1 class="text-4xl font-bold text-indigo-600">🗣️ Jelou</h1>
+            <p class="text-gray-600 mt-2">Pronunciación de inglés hecha simple</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        
+        <!-- Card principal -->
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            
+            <!-- Selector de modo -->
+            <div class="flex gap-4 mb-6">
+                <button id="modeWord" class="flex-1 py-3 px-6 rounded-lg font-semibold bg-indigo-600 text-white transition">
+                    📖 Palabra en inglés
+                </button>
+                <button id="modeIPA" class="flex-1 py-3 px-6 rounded-lg font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">
+                    🔤 IPA directo
+                </button>
+            </div>
+
+            <!-- Input -->
+            <div class="mb-6">
+                <label for="wordInput" class="block text-gray-700 font-semibold mb-2" id="inputLabel">
+                    Escribe una palabra en inglés:
+                </label>
+                <input 
+                    type="text" 
+                    id="wordInput" 
+                    placeholder="Ejemplo: hello"
+                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none text-lg"
+                    autocomplete="off"
+                >
+            </div>
+
+            <!-- Botón traducir -->
+            <button 
+                id="translateBtn"
+                class="w-full bg-indigo-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 transition shadow-lg hover:shadow-xl"
+            >
+                ✨ Traducir
+            </button>
+
+            <!-- Resultado -->
+            <div id="result" class="mt-8 hidden">
+                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border-2 border-indigo-200">
+                    
+                    <!-- Palabra original -->
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-1">Palabra:</p>
+                        <p id="resultWord" class="text-2xl font-bold text-gray-800"></p>
+                    </div>
+
+                    <!-- IPA -->
+                    <div class="mb-4" id="ipaSection">
+                        <p class="text-sm text-gray-600 mb-1">IPA:</p>
+                        <p id="resultIPA" class="text-xl text-gray-700 font-mono"></p>
+                    </div>
+
+                    <!-- Pronunciación en español -->
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <p class="text-sm text-gray-600 mb-2">🎯 Pronunciación en español:</p>
+                        <p id="resultSpanish" class="text-4xl font-bold text-indigo-600"></p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Error -->
+            <div id="error" class="mt-8 hidden">
+                <div class="bg-red-50 border-2 border-red-200 rounded-xl p-4">
+                    <p class="text-red-700">
+                        <span class="font-bold">❌ Error:</span>
+                        <span id="errorMessage"></span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div id="loading" class="mt-8 hidden text-center">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent"></div>
+                <p class="text-gray-600 mt-4">Traduciendo...</p>
+            </div>
+
+        </div>
+
+        <!-- Ejemplos -->
+        <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">💡 Ejemplos populares:</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <button class="example-btn px-4 py-2 bg-gray-100 hover:bg-indigo-100 rounded-lg text-gray-700 hover:text-indigo-600 transition">hello</button>
+                <button class="example-btn px-4 py-2 bg-gray-100 hover:bg-indigo-100 rounded-lg text-gray-700 hover:text-indigo-600 transition">world</button>
+                <button class="example-btn px-4 py-2 bg-gray-100 hover:bg-indigo-100 rounded-lg text-gray-700 hover:text-indigo-600 transition">think</button>
+                <button class="example-btn px-4 py-2 bg-gray-100 hover:bg-indigo-100 rounded-lg text-gray-700 hover:text-indigo-600 transition">computer</button>
+                <button class="example-btn px-4 py-2 bg-gray-100 hover:bg-indigo-100 rounded-lg text-gray-700 hover:text-indigo-600 transition">water</button>
+                <button class="example-btn px-4 py-2 bg-gray-100 hover:bg-indigo-100 rounded-lg text-gray-700 hover:text-indigo-600 transition">coffee</button>
+                <button class="example-btn px-4 py-2 bg-gray-100 hover:bg-indigo-100 rounded-lg text-gray-700 hover:text-indigo-600 transition">thank</button>
+                <button class="example-btn px-4 py-2 bg-gray-100 hover:bg-indigo-100 rounded-lg text-gray-700 hover:text-indigo-600 transition">please</button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-4xl mx-auto px-4 py-8 text-center text-gray-600">
+        <p>Hecho con ❤️ para hispanohablantes aprendiendo inglés</p>
+        <p class="mt-2">
+            <a href="https://github.com/N7C0LAS/jelou" target="_blank" class="text-indigo-600 hover:underline">
+                Ver en GitHub
+            </a>
+        </p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
