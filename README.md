@@ -4,10 +4,11 @@
 
 Jelou es un motor de adaptación fonética que convierte palabras en inglés a una representación fonética legible, eliminando la barrera del Alfabeto Fonético Internacional (IPA).
 
-[![Tests](https://img.shields.io/badge/tests-34%20passing-brightgreen)]()
-[![Python](https://img.shields.io/badge/python-3.9%2B-blue)]()
-[![License](https://img.shields.io/badge/license-MIT-blue)]()
-
+[![Tests](https://github.com/N7C0LAS/jelou/actions/workflows/tests.yml/badge.svg)](https://github.com/N7C0LAS/jelou/actions)
+[![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/N7C0LAS/jelou/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/N7C0LAS/jelou)](https://github.com/N7C0LAS/jelou/releases)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 ---
 
 ## 🎯 Problema que resuelve
