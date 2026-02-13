@@ -96,7 +96,7 @@ def arpabet_to_ipa(arpabet_sequence: str) -> str:
 
 
 
-def parse_cmu_line(line: str) -> Optional[tuple[str, str]]
+def parse_cmu_line(line: str) -> Optional[Tuple[str, str]]:
     """
     Parsea una línea del CMU Dictionary.
     
