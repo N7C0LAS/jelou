@@ -6,6 +6,8 @@ basado en ASCII. Este módulo convierte ARPABET a IPA para poder usar
 el motor fonético de Jelou.
 """
 
+from typing import Optional, Tuple
+
 # Tabla de conversión ARPABET → IPA
 # Basado en la convención del CMU Pronouncing Dictionary
 ARPABET_TO_IPA = {
@@ -93,7 +95,8 @@ def arpabet_to_ipa(arpabet_sequence: str) -> str:
     return "".join(ipa_result)
 
 
-def parse_cmu_line(line: str) -> tuple[str, str] | None:
+
+def parse_cmu_line(line: str) -> Optional[tuple[str, str]]
     """
     Parsea una línea del CMU Dictionary.
     
