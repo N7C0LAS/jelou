@@ -9,7 +9,7 @@ URL: http://www.speech.cs.cmu.edu/cgi-bin/cmudict
 
 import urllib.request
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 from jelou.arpabet_to_ipa import parse_cmu_line
 
@@ -92,7 +92,7 @@ class CMUDictionary:
         
         print(f"✅ Diccionario cargado: {len(self._dict)} palabras")
     
-    def lookup(self, word: str) -> str | None:
+    def lookup(self, word: str) -> Optional[str]:
         """
         Busca la pronunciación IPA de una palabra.
         
@@ -125,7 +125,7 @@ def get_dictionary() -> CMUDictionary:
     return _cmu_dict
 
 
-def lookup_word(word: str) -> str | None:
+def lookup_word(word: str) -> Optional[str]:
     """
     Función de conveniencia para buscar una palabra.
     

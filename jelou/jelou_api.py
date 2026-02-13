@@ -8,6 +8,7 @@ Este módulo integra todos los componentes:
 
 from jelou.cmu_dictionary import lookup_word
 from jelou.phonetic_engine import ipa_to_spanish
+from typing import List, Dict
 
 
 def translate_word(word: str) -> dict:
@@ -70,7 +71,7 @@ def translate_ipa(ipa: str) -> str:
     return ipa_to_spanish(ipa)
 
 
-def batch_translate(words: list[str]) -> list[dict]:
+def batch_translate(words: List[str]) -> List[Dict]:
     """
     Traduce múltiples palabras de una vez.
     
