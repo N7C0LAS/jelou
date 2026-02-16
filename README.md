@@ -8,7 +8,7 @@ Jelou es un motor de adaptación fonética que convierte palabras en inglés a u
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/N7C0LAS/jelou/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/N7C0LAS/jelou)](https://github.com/N7C0LAS/jelou/releases)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 ---
 
 ## 🎯 Problema que resuelve
@@ -21,18 +21,35 @@ El IPA es preciso pero poco intuitivo. **Jelou traduce símbolos fonéticos comp
 
 ---
 
+## 🌐 Aplicación Web
+
+**Usa Jelou desde tu navegador:** [https://jelou.onrender.com](https://jelou.onrender.com)
+
+La aplicación web ofrece:
+- 🎨 Interfaz moderna y responsive
+- 📱 Funciona en móvil, tablet y desktop
+- ⚡ Traducción instantánea de 126,052 palabras
+- 🔄 Dos modos: Palabra en inglés + IPA directo
+- 💡 Ejemplos interactivos
+
+**No requiere instalación** - solo abre el link y empieza a usar.
+
+---
+
 ## ✨ Características
 
 - 🎯 **126,052 palabras** del CMU Pronouncing Dictionary
 - 🔄 **Conversión automática**: palabra → IPA → español
 - 🎨 **Modo IPA directo** para usuarios avanzados
-- 📦 **Sistema de caché** (descarga una vez, usa offline)
+- 📦 **Sistema de caché** (descarga una vez, usa offline en CLI)
 - 🧪 **34 tests** validando cada componente
 - 🐍 **API Python** para integración en otros proyectos
+- 🌐 **Aplicación web** accesible desde cualquier dispositivo
+- 📝 **Código completamente documentado** para contribuidores
 
 ---
 
-## 🚀 Instalación
+## 🚀 Instalación (CLI)
 
 ### Requisitos
 - Python 3.9 o superior
@@ -41,7 +58,7 @@ El IPA es preciso pero poco intuitivo. **Jelou traduce símbolos fonéticos comp
 ### Instalación desde código fuente
 ```bash
 # Clonar repositorio
-git clone https://github.com/tu-usuario/jelou.git
+git clone https://github.com/N7C0LAS/jelou.git
 cd jelou
 
 # Crear entorno virtual
@@ -56,7 +73,15 @@ pip install -e .
 
 ## 💻 Uso
 
-### 1️⃣ CLI - Modo palabra (recomendado)
+### 1️⃣ Aplicación Web (Recomendado)
+
+**Accede a:** [https://jelou.onrender.com](https://jelou.onrender.com)
+
+- No requiere instalación
+- Interfaz intuitiva
+- Funciona en cualquier dispositivo
+
+### 2️⃣ CLI - Modo palabra
 ```bash
 $ jelou hello
 halou
@@ -71,7 +96,7 @@ $ jelou think
 zink
 ```
 
-### 2️⃣ CLI - Modo verbose
+### 3️⃣ CLI - Modo verbose
 ```bash
 $ jelou hello --verbose
 Palabra: hello
@@ -79,7 +104,7 @@ IPA:     hʌloʊ
 Español: halou
 ```
 
-### 3️⃣ CLI - Modo IPA directo
+### 4️⃣ CLI - Modo IPA directo
 
 Para usuarios que ya conocen IPA:
 ```bash
@@ -90,7 +115,7 @@ $ jelou --ipa /ʃiː/
 shí
 ```
 
-### 4️⃣ API Python
+### 5️⃣ API Python
 ```python
 from jelou import translate_word, translate_ipa
 
@@ -153,24 +178,44 @@ pytest -v
 # Tests específicos
 pytest tests/test_integration.py
 pytest tests/test_arpabet_to_ipa.py
-
-# Cobertura de tests
-pytest --cov=jelou
 ```
 
-**Resultado actual:** ✅ 34/34 tests pasando
+**Resultado actual:** ✅ 34/34 tests pasando en Python 3.9-3.12
 
 ---
 
 ## 📂 Arquitectura del proyecto
+
+### Stack tecnológico
+
+**Backend:**
+- Python 3.9+
+- Flask (web framework)
+- CMU Pronouncing Dictionary
+
+**Frontend:**
+- HTML5
+- Tailwind CSS
+- Vanilla JavaScript
+
+**Infrastructure:**
+- GitHub Actions (CI/CD)
+- Render (deployment)
+- Gunicorn (production server)
+
+### Estructura de archivos
 ```
 jelou/
-├── jelou/
+├── jelou/                       # Paquete principal
 │   ├── cli.py                  # Interfaz de línea de comandos
 │   ├── phonetic_engine.py      # Motor IPA → Español
 │   ├── arpabet_to_ipa.py       # Conversor ARPABET → IPA
 │   ├── cmu_dictionary.py       # Diccionario CMU (126k palabras)
 │   └── jelou_api.py            # API pública unificada
+├── web/                         # Aplicación web
+│   ├── app.py                  # Backend Flask
+│   ├── templates/              # HTML
+│   └── static/                 # CSS, JavaScript
 ├── tests/                       # 34 tests unitarios + integración
 ├── rules.md                     # Documentación de reglas fonéticas
 └── README.md
@@ -213,9 +258,9 @@ jelou wednesday    # → wénsdei
 
 ---
 
-## ⚙️ Primera ejecución
+## ⚙️ Primera ejecución (CLI)
 
-La primera vez que uses Jelou con una palabra (no IPA), descargará automáticamente el diccionario CMU (~3MB):
+La primera vez que uses Jelou CLI con una palabra (no IPA), descargará automáticamente el diccionario CMU (~3MB):
 ```bash
 $ jelou hello
 📥 Descargando CMU Pronouncing Dictionary...
@@ -231,51 +276,65 @@ Las siguientes ejecuciones serán **instantáneas** (usa caché local).
 
 ## 🛣️ Roadmap
 
-### ✅ v0.1.0 (Actual - MVP)
+### ✅ v0.1.0 - MVP CLI
 - Motor fonético IPA → español
 - Integración CMU Dictionary
 - CLI con dos modos
 - API Python pública
 - 34 tests automatizados
 
-### 🚧 v0.2.0 (Próximo)
+### ✅ v0.2.0 - Aplicación Web (Actual)
+- Aplicación web completa con Flask
+- Interfaz responsive moderna
+- Deploy en producción
+- Código completamente documentado
+- Guías para contribuidores
+
+### 🚧 v0.3.0 - Próximo
 - [ ] Soporte para frases completas
 - [ ] Detección automática de idioma
 - [ ] Modo interactivo (REPL)
 - [ ] Exportar a archivo (txt, json)
 
-### 🔮 v0.3.0 (Futuro)
+### 🔮 Futuro
 - [ ] Generación de audio (TTS)
 - [ ] Reconocimiento de voz
-- [ ] Aplicación web
 - [ ] App móvil (iOS/Android)
+- [ ] Extensión de navegador
 
 ---
 
 ## 🤝 Contribuir
 
-Las contribuciones son bienvenidas. Para contribuir:
+Las contribuciones son bienvenidas. Ver [CONTRIBUTING.md](CONTRIBUTING.md) para guías detalladas.
+
+### Proceso rápido:
 
 1. Fork el proyecto
 2. Crea un branch: `git checkout -b feature/NuevaCaracteristica`
-3. Haz commit: `git commit -m 'Agregar NuevaCaracteristica'`
+3. Haz commit: `git commit -m 'feat: agregar NuevaCaracteristica'`
 4. Push: `git push origin feature/NuevaCaracteristica`
 5. Abre un Pull Request
 
 ### Guías para contribuir
-- Todos los tests deben pasar
-- Agregar tests para código nuevo
-- Seguir el estilo de código existente
-- Documentar funciones públicas
+- ✅ Todos los tests deben pasar
+- ✅ Agregar tests para código nuevo
+- ✅ Seguir el estilo de código existente
+- ✅ Documentar funciones públicas
+- ✅ Código completamente comentado
+
+**El proyecto está completamente documentado** - cada función incluye docstrings con argumentos, retornos y ejemplos.
 
 ---
 
 ## 📝 Limitaciones actuales
 
 - Solo inglés americano (no británico)
-- Solo palabras individuales (no frases completas todavía)
+- Solo palabras individuales en CLI (frases próximamente)
 - Palabras no encontradas requieren modo `--ipa` manual
-- Requiere conexión a internet la primera vez
+- CLI requiere conexión a internet la primera vez
+
+**La aplicación web** no tiene estas limitaciones y funciona completamente online.
 
 ---
 
@@ -289,14 +348,16 @@ MIT License - Ver [LICENSE](LICENSE) para detalles
 
 - **CMU Pronouncing Dictionary** - Diccionario de pronunciación de código abierto
 - Comunidad de hispanohablantes aprendiendo inglés
+- Contribuidores del proyecto
 
 ---
 
 ## 📧 Contacto
 
-**Nicolás** - Creador de Jelou
+**Nicolás Espejo** - Creador de Jelou
 
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
+- GitHub: [@N7C0LAS](https://github.com/N7C0LAS)
+- Proyecto: [github.com/N7C0LAS/jelou](https://github.com/N7C0LAS/jelou)
 
 ---
 
@@ -311,3 +372,5 @@ Si este proyecto te resultó útil, considera:
 ---
 
 **Hecho con ❤️ para hispanohablantes aprendiendo inglés**
+
+**Versión Web:** [jelou.onrender.com](https://jelou.onrender.com)
