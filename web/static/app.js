@@ -327,3 +327,37 @@ document.querySelectorAll('.example-btn').forEach(btn => {
  * Mejora UX permitiendo que el usuario empiece a escribir inmediatamente
  */
 wordInput.focus();
+
+// =========================
+// COPIAR RESULTADO
+// =========================
+
+/**
+ * Copia la pronunciación en español al portapapeles.
+ * Muestra feedback visual confirmando la acción.
+ */
+function copyResult() {
+    const text = resultSpanish.textContent;
+    if (!text) return;
+
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copyBtnText');
+        btn.textContent = '¡Copiado!';
+        setTimeout(() => {
+            btn.textContent = 'Copiar';
+        }, 2000);
+    }).catch(() => {
+        // Fallback para navegadores sin soporte clipboard API
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        const btn = document.getElementById('copyBtnText');
+        btn.textContent = '¡Copiado!';
+        setTimeout(() => {
+            btn.textContent = 'Copiar';
+        }, 2000);
+    });
+}
