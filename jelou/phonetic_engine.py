@@ -32,57 +32,57 @@ Licencia: MIT
 # de múltiples símbolos IPA que deben tratarse como una unidad.
 # El orden importa: reglas más largas primero para evitar conversiones parciales.
 COMPOUND_RULES = {
-    "aɪər": "air",   # Diptongo + schwa + r: "fire" → "fair"
-    "aʊər": "aur",   # Diptongo + schwa + r: "hour" → "aur"
-    "dʒ": "y",       # Africada sonora: "job" → "yob"
-    "tʃ": "ch",      # Africada sorda: "chair" → "cher"
-    "θ": "z",        # Fricativa dental sorda: "think" → "zink"
-    "ð": "d",        # Fricativa dental sonora: "this" → "dis"
-    "ʃ": "sh",       # Fricativa postalveolar sorda: "she" → "shí"
-    "ʒ": "sh",       # Fricativa postalveolar sonora: "vision" → "vishan"
-    "eər": "er",     # Vocal + schwa + r: "care" → "ker"
+    "aɪər": "air",  # Diptongo + schwa + r: "fire" → "fair"
+    "aʊər": "aur",  # Diptongo + schwa + r: "hour" → "aur"
+    "dʒ": "y",  # Africada sonora: "job" → "yob"
+    "tʃ": "ch",  # Africada sorda: "chair" → "cher"
+    "θ": "z",  # Fricativa dental sorda: "think" → "zink"
+    "ð": "d",  # Fricativa dental sonora: "this" → "dis"
+    "ʃ": "sh",  # Fricativa postalveolar sorda: "she" → "shí"
+    "ʒ": "sh",  # Fricativa postalveolar sonora: "vision" → "vishan"
+    "eər": "er",  # Vocal + schwa + r: "care" → "ker"
 }
 
 # Reglas de vocales: Mapeo de vocales IPA a representación en español
 # Se incluyen vocales cortas, largas (marcadas con ː), diptongos y vocales r-coloreadas
 VOWEL_RULES = {
-    "iː": "í",       # Vocal larga: "see" → "sí"
-    "ɪ": "i",        # Vocal corta: "sit" → "sit"
-    "ɛ": "e",        # Vocal abierta: "bed" → "bed"
-    "æ": "a",        # Vocal baja frontal: "cat" → "kat"
-    "ɑ": "a",        # Vocal baja posterior: "father" → "fáder"
-    "ʌ": "a",        # Vocal media-baja: "but" → "bat"
-    "e": "e",        # Vocal media: "bed" → "bed"
-    "ə": "a",        # Schwa (vocal neutra): "about" → "abaut"
-    "ɔ": "o",        # Vocal media-baja posterior: "law" → "lo"
-    "ʊ": "u",        # Vocal alta posterior corta: "book" → "buk"
-    "aʊ": "au",      # Diptongo: "now" → "nau"
-    "oʊ": "ou",      # Diptongo: "go" → "gou"
-    "uː": "ú",       # Vocal larga: "food" → "fúd"
-    "ɝ": "er",       # Vocal r-coloreada: "bird" → "berd"
-    "ɚ": "er",       # Vocal r-coloreada débil: "better" → "beter"
+    "iː": "í",  # Vocal larga: "see" → "sí"
+    "ɪ": "i",  # Vocal corta: "sit" → "sit"
+    "ɛ": "e",  # Vocal abierta: "bed" → "bed"
+    "æ": "a",  # Vocal baja frontal: "cat" → "kat"
+    "ɑ": "a",  # Vocal baja posterior: "father" → "fáder"
+    "ʌ": "a",  # Vocal media-baja: "but" → "bat"
+    "e": "e",  # Vocal media: "bed" → "bed"
+    "ə": "a",  # Schwa (vocal neutra): "about" → "abaut"
+    "ɔ": "o",  # Vocal media-baja posterior: "law" → "lo"
+    "ʊ": "u",  # Vocal alta posterior corta: "book" → "buk"
+    "aʊ": "au",  # Diptongo: "now" → "nau"
+    "oʊ": "ou",  # Diptongo: "go" → "gou"
+    "uː": "ú",  # Vocal larga: "food" → "fúd"
+    "ɝ": "er",  # Vocal r-coloreada: "bird" → "berd"
+    "ɚ": "er",  # Vocal r-coloreada débil: "better" → "beter"
 }
 
 # Reglas de consonantes: Mapeo directo de consonantes IPA a español
 # La mayoría tienen correspondencia directa con el español
 CONSONANT_RULES = {
-    "h": "j",        # Fricativa glotal sorda: "hello" → "jelou" (NUEVO)
-    "ŋ": "ng",       # Nasal velar: "sing" → "sing"
-    "k": "k",        # Oclusiva velar sorda
-    "s": "s",        # Fricativa alveolar sorda
-    "z": "z",        # Fricativa alveolar sonora
-    "w": "w",        # Aproximante labio-velar
-    "r": "r",        # Aproximante alveolar
-    "l": "l",        # Aproximante lateral alveolar
-    "n": "n",        # Nasal alveolar
-    "m": "m",        # Nasal bilabial
-    "f": "f",        # Fricativa labiodental sorda
-    "v": "v",        # Fricativa labiodental sonora
-    "b": "b",        # Oclusiva bilabial sonora
-    "p": "p",        # Oclusiva bilabial sorda
-    "t": "t",        # Oclusiva alveolar sorda
-    "d": "d",        # Oclusiva alveolar sonora
-    "g": "g",        # Oclusiva velar sonora
+    "h": "j",  # Fricativa glotal sorda: "hello" → "jelou" (NUEVO)
+    "ŋ": "ng",  # Nasal velar: "sing" → "sing"
+    "k": "k",  # Oclusiva velar sorda
+    "s": "s",  # Fricativa alveolar sorda
+    "z": "z",  # Fricativa alveolar sonora
+    "w": "w",  # Aproximante labio-velar
+    "r": "r",  # Aproximante alveolar
+    "l": "l",  # Aproximante lateral alveolar
+    "n": "n",  # Nasal alveolar
+    "m": "m",  # Nasal bilabial
+    "f": "f",  # Fricativa labiodental sorda
+    "v": "v",  # Fricativa labiodental sonora
+    "b": "b",  # Oclusiva bilabial sonora
+    "p": "p",  # Oclusiva bilabial sorda
+    "t": "t",  # Oclusiva alveolar sorda
+    "d": "d",  # Oclusiva alveolar sonora
+    "g": "g",  # Oclusiva velar sonora
 }
 
 
@@ -90,13 +90,14 @@ CONSONANT_RULES = {
 # MOTOR DE CONVERSIÓN
 # =========================
 
+
 def ipa_to_spanish(ipa: str) -> str:
     """
     Convierte una cadena IPA a representación fonética en español.
-    
+
     Esta es la función principal del motor fonético. Procesa la entrada
     IPA en múltiples fases para lograr precisión fonética.
-    
+
     Proceso:
     --------
     1. Normaliza la entrada (minúsculas, elimina marcas de acento)
@@ -105,13 +106,13 @@ def ipa_to_spanish(ipa: str) -> str:
     4. Aplica reglas de consonantes
     5. Aplica correcciones contextuales (NUEVO)
     6. Aplica correcciones fonéticas finales
-    
+
     Args:
         ipa (str): Cadena en notación IPA (ej: "θɪŋk", "hɛˈloʊ")
-        
+
     Returns:
         str: Representación fonética en español (ej: "zink", "jelou")
-        
+
     Examples:
         >>> ipa_to_spanish("θɪŋk")
         'zink'
@@ -121,11 +122,11 @@ def ipa_to_spanish(ipa: str) -> str:
         'eish'
         >>> ipa_to_spanish("kəmpjuːtɚ")
         'kampiúter'
-        
+
     Note:
         Las marcas de acento primario (ˈ) y secundario (ˌ) del IPA
         se eliminan ya que el español usa acentos gráficos.
-        
+
     Cambios en v0.2.1:
         - /h/ → "j" (hello → jelou)
         - /j/ → "i" (yes → ies)
@@ -138,14 +139,14 @@ def ipa_to_spanish(ipa: str) -> str:
     # Paso 2: Eliminar marcas de acento del IPA (no las usamos en español)
     result = result.replace("ˈ", "").replace("ˌ", "")
 
-# Paso 3: ESPECIAL - Proteger /j/ IPA y resultados de reglas compuestas
+    # Paso 3: ESPECIAL - Proteger /j/ IPA y resultados de reglas compuestas
     # Marcador temporal para /j/ del IPA (yes, you)
     result = result.replace("j", "~~~TEMP_J~~~")
-    
+
     # Paso 4: Aplicar reglas compuestas PRIMERO
     for ipa_sound, adapted in COMPOUND_RULES.items():
         result = result.replace(ipa_sound, adapted)
-    
+
     # Paso 5: Proteger "sh" y "ch" creados por reglas compuestas
     # Evita que la "h" en "sh" se convierta a "j"
     result = result.replace("sh", "~~~TEMP_SH~~~")
@@ -158,19 +159,19 @@ def ipa_to_spanish(ipa: str) -> str:
     # Paso 7: Aplicar reglas de consonantes
     for ipa_sound, adapted in CONSONANT_RULES.items():
         result = result.replace(ipa_sound, adapted)
-    
+
     # Paso 8: Restaurar marcadores temporales
     result = result.replace("~~~TEMP_J~~~", "i")
     result = result.replace("~~~TEMP_SH~~~", "sh")
     result = result.replace("~~~TEMP_CH~~~", "ch")
 
     # Paso 9: Correcciones contextuales para precisión fonética
-    for vocal in ['a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú']:
+    for vocal in ["a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú"]:
         if result.endswith(f"{vocal}y"):
             result = result[:-1] + "sh"
-    
+
     result = result.replace("pj", "pi")
-    
+
     # Paso 10: Correcciones fonéticas finales
     result = result.replace("ngk", "nk")
     result = result.replace("ngg", "ng")
