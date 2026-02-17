@@ -361,3 +361,34 @@ function copyResult() {
         }, 2000);
     });
 }
+
+
+// =========================
+// AUDIO - WEB SPEECH API
+// =========================
+
+/**
+ * Pronuncia la palabra original en inglés usando Web Speech API.
+ * Sin APIs externas, funciona directo en el navegador.
+ */
+function speakWord() {
+    const word = resultWord.textContent;
+    if (!word) return;
+
+    if (!window.speechSynthesis) {
+        alert('Tu navegador no soporta audio. Prueba con Chrome.');
+        return;
+    }
+
+    const btn = document.getElementById('audioBtnText');
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+
+    utterance.onstart = () => { btn.textContent = '🔊 Reproduciendo...'; };
+    utterance.onend = () => { btn.textContent = 'Escuchar'; };
+    utterance.onerror = () => { btn.textContent = 'Escuchar'; };
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+}
