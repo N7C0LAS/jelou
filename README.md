@@ -16,8 +16,8 @@ Jelou es un motor de adaptación fonética que convierte palabras en inglés a u
 El IPA es preciso pero poco intuitivo. **Jelou traduce símbolos fonéticos complejos a una forma visual cercana al español**, reduciendo la fricción en el aprendizaje de pronunciación.
 
 **Ejemplo:**
-- IPA tradicional: \`θɪŋk\` ❌ (¿Cómo se lee esto?)
-- Con Jelou: \`zink\` ✅ (¡Inmediatamente comprensible!)
+- IPA tradicional: `θɪŋk` ❌ (¿Cómo se lee esto?)
+- Con Jelou: `zink` ✅ (¡Inmediatamente comprensible!)
 
 ---
 
@@ -61,7 +61,7 @@ La aplicación web ofrece:
 - Conexión a internet (solo primera vez)
 
 ### Instalación desde código fuente
-\`\`\`bash
+```bash
 # Clonar repositorio
 git clone https://github.com/N7C0LAS/jelou.git
 cd jelou
@@ -72,7 +72,7 @@ source venv/bin/activate
 
 # Instalar en modo desarrollo
 pip install -e .
-\`\`\`
+```
 
 ---
 
@@ -88,7 +88,7 @@ pip install -e .
 - Audio de pronunciación integrado
 
 ### 2️⃣ CLI - Modo palabra
-\`\`\`bash
+```bash
 $ jelou hello
 jalou
 
@@ -100,29 +100,29 @@ kampiúter
 
 $ jelou think
 zink
-\`\`\`
+```
 
 ### 3️⃣ CLI - Modo verbose
-\`\`\`bash
+```bash
 $ jelou hello --verbose
 Palabra: hello
 IPA:     hʌloʊ
 Español: jalou
-\`\`\`
+```
 
 ### 4️⃣ CLI - Modo IPA directo
 
 Para usuarios que ya conocen IPA:
-\`\`\`bash
+```bash
 $ jelou --ipa θɪŋk
 zink
 
 $ jelou --ipa /ʃiː/
 shí
-\`\`\`
+```
 
 ### 5️⃣ API Python
-\`\`\`python
+```python
 from jelou import translate_word, translate_ipa
 
 # Traducir palabra completa
@@ -142,7 +142,7 @@ print(spanish)  # "zink"
 # Procesar múltiples palabras
 from jelou import batch_translate
 results = batch_translate(["hello", "world", "think"])
-\`\`\`
+```
 
 ---
 
@@ -175,7 +175,7 @@ results = batch_translate(["hello", "world", "think"])
 ---
 
 ## 🧪 Tests
-\`\`\`bash
+```bash
 # Ejecutar todos los tests
 pytest
 
@@ -185,7 +185,7 @@ pytest -v
 # Tests específicos
 pytest tests/test_integration.py
 pytest tests/test_arpabet_to_ipa.py
-\`\`\`
+```
 
 **Resultado actual:** ✅ 34/34 tests pasando en Python 3.9-3.12
 
@@ -195,13 +195,13 @@ pytest tests/test_arpabet_to_ipa.py
 
 El proyecto usa **Black** para formateo y **Flake8** para linting:
 
-\`\`\`bash
+```bash
 # Formatear código
 black jelou/ web/
 
 # Verificar linting
 flake8 jelou/ web/
-\`\`\`
+```
 
 **Estado actual:** ✅ 0 errores de linting
 
@@ -229,7 +229,7 @@ flake8 jelou/ web/
 - Google Analytics (métricas)
 
 ### Estructura de archivos
-\`\`\`
+```
 jelou/
 ├── jelou/                       # Paquete principal
 │   ├── cli.py                  # Interfaz de línea de comandos
@@ -244,10 +244,10 @@ jelou/
 ├── tests/                       # 34 tests unitarios + integración
 ├── rules.md                     # Documentación de reglas fonéticas
 └── README.md
-\`\`\`
+```
 
 ### Flujo de datos
-\`\`\`
+```
 Palabra en inglés
        ↓
 CMU Dictionary (ARPABET)
@@ -257,43 +257,43 @@ Conversor → IPA
 Motor fonético
        ↓
 Representación en español
-\`\`\`
+```
 
 ---
 
 ## 🎓 Ejemplos prácticos
 
 ### Palabras comunes
-\`\`\`bash
+```bash
 jelou hello    # → jalou
 jelou goodbye  # → gudbái
 jelou please   # → plís
 jelou thank    # → zank
 jelou water    # → wáter
 jelou coffee   # → káfi
-\`\`\`
+```
 
 ### Palabras difíciles
-\`\`\`bash
+```bash
 jelou through      # → zrú
 jelou thought      # → zot
 jelou schedule     # → skéyul
 jelou wednesday    # → wénsdei
-\`\`\`
+```
 
 ---
 
 ## ⚙️ Primera ejecución (CLI)
 
 La primera vez que uses Jelou CLI con una palabra (no IPA), descargará automáticamente el diccionario CMU (~3MB):
-\`\`\`bash
+```bash
 $ jelou hello
 📥 Descargando CMU Pronouncing Dictionary...
 ✅ Diccionario descargado y guardado en: ~/.jelou/cmudict.txt
 📖 Cargando diccionario desde: ~/.jelou/cmudict.txt
 ✅ Diccionario cargado: 126052 palabras
 jalou
-\`\`\`
+```
 
 Las siguientes ejecuciones serán **instantáneas** (usa caché local).
 
@@ -345,15 +345,15 @@ Las contribuciones son bienvenidas. Ver [CONTRIBUTING.md](CONTRIBUTING.md) para 
 ### Proceso rápido:
 
 1. Fork el proyecto
-2. Crea un branch: \`git checkout -b feature/NuevaCaracteristica\`
-3. Haz commit: \`git commit -m 'feat: agregar NuevaCaracteristica'\`
-4. Push: \`git push origin feature/NuevaCaracteristica\`
+2. Crea un branch: `git checkout -b feature/NuevaCaracteristica`
+3. Haz commit: `git commit -m 'feat: agregar NuevaCaracteristica'`
+4. Push: `git push origin feature/NuevaCaracteristica`
 5. Abre un Pull Request
 
 ### Guías para contribuir
 - ✅ Todos los tests deben pasar
-- ✅ Código formateado con Black (\`black jelou/ web/\`)
-- ✅ Sin errores de linting (\`flake8 jelou/ web/\`)
+- ✅ Código formateado con Black (`black jelou/ web/`)
+- ✅ Sin errores de linting (`flake8 jelou/ web/`)
 - ✅ Agregar tests para código nuevo
 - ✅ Documentar funciones públicas
 - ✅ Código completamente comentado
@@ -366,7 +366,7 @@ Las contribuciones son bienvenidas. Ver [CONTRIBUTING.md](CONTRIBUTING.md) para 
 
 - Solo inglés americano (no británico)
 - Solo palabras individuales en CLI (frases próximamente)
-- Palabras no encontradas requieren modo \`--ipa\` manual
+- Palabras no encontradas requieren modo `--ipa` manual
 - CLI requiere conexión a internet la primera vez
 
 **La aplicación web** no tiene estas limitaciones y funciona completamente online.
