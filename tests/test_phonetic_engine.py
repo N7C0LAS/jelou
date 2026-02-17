@@ -50,9 +50,9 @@ def test_ng_followed_by_g():
 
 def test_e_r_diphthong():
     assert ipa_to_spanish("keər") == "ker"
-    assert ipa_to_spanish("heər") == "her"
+    assert ipa_to_spanish("heər") == "jer"
 
 def test_diphthong_r():
     assert ipa_to_spanish("faɪər") == "fair"
     assert ipa_to_spanish("aʊər") == "aur"
-    assert ipa_to_spanish("haʊər") == "haur"
+    assert ipa_to_spanish("haʊər") == "jaur"

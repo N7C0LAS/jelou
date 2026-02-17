@@ -8,8 +8,7 @@ a una representación fonética legible usando el alfabeto español.
 Propósito:
 ----------
 Facilitar la pronunciación del inglés para hispanohablantes sin necesidad
-de aprender IPA. El sistema prioriza claridad y utilidad sobre precisión
-lingüística académica.
+de aprender IPA. El sistema prioriza precisión fonética y claridad.
 
 Principios de diseño:
 ---------------------
@@ -17,7 +16,9 @@ Principios de diseño:
 2. Conversión determinista (misma entrada = misma salida)
 3. Sistema consistente y predecible
 4. Resultado pronunciable sin contexto adicional
+5. Precisión fonética sobre simplicidad
 
+Versión: 0.2.1 (Correcciones fonéticas)
 Autor: Nicolás Espejo
 Proyecto: Jelou
 Licencia: MIT
@@ -65,6 +66,7 @@ VOWEL_RULES = {
 # Reglas de consonantes: Mapeo directo de consonantes IPA a español
 # La mayoría tienen correspondencia directa con el español
 CONSONANT_RULES = {
+    "h": "j",        # Fricativa glotal sorda: "hello" → "jelou" (NUEVO)
     "ŋ": "ng",       # Nasal velar: "sing" → "sing"
     "k": "k",        # Oclusiva velar sorda
     "s": "s",        # Fricativa alveolar sorda
@@ -93,7 +95,7 @@ def ipa_to_spanish(ipa: str) -> str:
     Convierte una cadena IPA a representación fonética en español.
     
     Esta es la función principal del motor fonético. Procesa la entrada
-    IPA en tres fases: reglas compuestas, vocales, y consonantes.
+    IPA en múltiples fases para lograr precisión fonética.
     
     Proceso:
     --------
@@ -101,25 +103,34 @@ def ipa_to_spanish(ipa: str) -> str:
     2. Aplica reglas compuestas (deben ir primero)
     3. Aplica reglas de vocales
     4. Aplica reglas de consonantes
-    5. Aplica correcciones fonéticas finales
+    5. Aplica correcciones contextuales (NUEVO)
+    6. Aplica correcciones fonéticas finales
     
     Args:
         ipa (str): Cadena en notación IPA (ej: "θɪŋk", "hɛˈloʊ")
         
     Returns:
-        str: Representación fonética en español (ej: "zink", "helou")
+        str: Representación fonética en español (ej: "zink", "jelou")
         
     Examples:
         >>> ipa_to_spanish("θɪŋk")
         'zink'
-        >>> ipa_to_spanish("ʃiː")
-        'shí'
-        >>> ipa_to_spanish("wɝld")
-        'werld'
+        >>> ipa_to_spanish("hɛloʊ")
+        'jelou'
+        >>> ipa_to_spanish("eɪdʒ")
+        'eish'
+        >>> ipa_to_spanish("kəmpjuːtɚ")
+        'kampiúter'
         
     Note:
         Las marcas de acento primario (ˈ) y secundario (ˌ) del IPA
         se eliminan ya que el español usa acentos gráficos.
+        
+    Cambios en v0.2.1:
+        - /h/ → "j" (hello → jelou)
+        - /j/ → "i" (yes → ies)
+        - /dʒ/ después de vocal → "sh" (age → eish)
+        - /pj/ → "pi" (computer → kampiúter)
     """
     # Paso 1: Normalizar entrada
     result = ipa.lower()
@@ -127,23 +138,41 @@ def ipa_to_spanish(ipa: str) -> str:
     # Paso 2: Eliminar marcas de acento del IPA (no las usamos en español)
     result = result.replace("ˈ", "").replace("ˌ", "")
 
-    # Paso 3: Aplicar reglas compuestas (PRIMERO - orden importa)
-    # Estas deben procesarse antes que las reglas individuales para evitar
-    # conversiones parciales incorrectas
+# Paso 3: ESPECIAL - Proteger /j/ IPA y resultados de reglas compuestas
+    # Marcador temporal para /j/ del IPA (yes, you)
+    result = result.replace("j", "~~~TEMP_J~~~")
+    
+    # Paso 4: Aplicar reglas compuestas PRIMERO
     for ipa_sound, adapted in COMPOUND_RULES.items():
         result = result.replace(ipa_sound, adapted)
+    
+    # Paso 5: Proteger "sh" y "ch" creados por reglas compuestas
+    # Evita que la "h" en "sh" se convierta a "j"
+    result = result.replace("sh", "~~~TEMP_SH~~~")
+    result = result.replace("ch", "~~~TEMP_CH~~~")
 
-    # Paso 4: Aplicar reglas de vocales
+    # Paso 6: Aplicar reglas de vocales
     for ipa_sound, adapted in VOWEL_RULES.items():
         result = result.replace(ipa_sound, adapted)
 
-    # Paso 5: Aplicar reglas de consonantes
+    # Paso 7: Aplicar reglas de consonantes
     for ipa_sound, adapted in CONSONANT_RULES.items():
         result = result.replace(ipa_sound, adapted)
+    
+    # Paso 8: Restaurar marcadores temporales
+    result = result.replace("~~~TEMP_J~~~", "i")
+    result = result.replace("~~~TEMP_SH~~~", "sh")
+    result = result.replace("~~~TEMP_CH~~~", "ch")
 
-    # Paso 6: Correcciones fonéticas finales
-    # Estas reglas evitan secuencias problemáticas en español
-    result = result.replace("ngk", "nk")    # "finger" → "finger" no "fingger"
-    result = result.replace("ngg", "ng")    # "longer" → "longer" no "longger"
+    # Paso 9: Correcciones contextuales para precisión fonética
+    for vocal in ['a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú']:
+        if result.endswith(f"{vocal}y"):
+            result = result[:-1] + "sh"
+    
+    result = result.replace("pj", "pi")
+    
+    # Paso 10: Correcciones fonéticas finales
+    result = result.replace("ngk", "nk")
+    result = result.replace("ngg", "ng")
 
     return result
