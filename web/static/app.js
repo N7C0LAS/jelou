@@ -376,7 +376,12 @@ function speakWord() {
     if (!word) return;
 
     if (!window.speechSynthesis) {
-        alert('Tu navegador no soporta audio. Prueba con Chrome.');
+        alert('Tu navegador no soporta audio. Prueba con Chrome o Edge.');
+        return;
+    }
+    // Brave bloquea speechSynthesis por privacidad
+    if (window.speechSynthesis && speechSynthesis.getVoices().length === 0) {
+        alert('Audio no disponible en este navegador. Prueba con Chrome o Edge.');
         return;
     }
 
