@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jelou - Pronunciación de Inglés para Hispanohablantes</title>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-85WDV9YVCP"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -14,56 +13,37 @@
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Aplicar tema guardado antes de renderizar para evitar flash
         const savedTheme = localStorage.getItem("theme") || "light";
         document.documentElement.classList.toggle("dark", savedTheme === "dark");
     </script>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-        }
-    </script>
+    <script>tailwind.config = { darkMode: "class" }</script>
     <style>
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .fade-in {
-            animation: fadeIn 0.3s ease-out;
-        }
-        .theme-toggle {
-            transition: all 0.3s ease;
-        }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        .theme-toggle { transition: all 0.3s ease; }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-none dark:bg-gray-900 min-h-screen transition-colors duration-300">
 
-    <!-- Header -->
     <header class="bg-white dark:bg-gray-800 shadow-sm transition-colors duration-300">
         <div class="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
             <div>
                 <h1 class="text-4xl font-bold text-indigo-600 dark:text-indigo-400">🗣️ Jelou</h1>
                 <p class="text-gray-600 dark:text-gray-400 mt-2">Haz que el inglés hable tu idioma</p>
             </div>
-            <!-- Toggle modo oscuro -->
-            <button
-                id="themeToggle"
-                onclick="toggleTheme()"
-                class="theme-toggle p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-xl"
-                title="Cambiar tema"
-            >
+            <button id="themeToggle" onclick="toggleTheme()" class="theme-toggle p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-xl" title="Cambiar tema">
                 <span id="themeIcon">🌙</span>
             </button>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-12">
 
-        <!-- Card principal -->
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transition-colors duration-300">
 
-            <!-- Selector de modo -->
             <div class="flex gap-4 mb-6">
                 <button id="modeWord" class="flex-1 py-3 px-6 rounded-lg font-semibold bg-indigo-600 text-white transition">
                     📖 Palabra en inglés
@@ -73,45 +53,29 @@
                 </button>
             </div>
 
-            <!-- Input -->
             <div class="mb-6">
                 <label for="wordInput" class="block text-gray-700 dark:text-gray-300 font-semibold mb-2" id="inputLabel">
                     Escribe una palabra en inglés:
                 </label>
-                <input
-                    type="text"
-                    id="wordInput"
-                    placeholder="Ejemplo: hello"
+                <input type="text" id="wordInput" placeholder="Ejemplo: hello"
                     class="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-indigo-500 focus:outline-none text-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-colors duration-300"
-                    autocomplete="off"
-                >
+                    autocomplete="off">
             </div>
 
-            <!-- Botón traducir -->
-            <button
-                id="translateBtn"
-                class="w-full bg-indigo-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 transition shadow-lg hover:shadow-xl"
-            >
+            <button id="translateBtn" class="w-full bg-indigo-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 transition shadow-lg hover:shadow-xl">
                 ✨ Traducir
             </button>
 
-            <!-- Resultado -->
             <div id="result" class="mt-8 hidden">
                 <div class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-gray-700 dark:to-gray-700 rounded-xl p-6 border-2 border-indigo-200 dark:border-gray-600 transition-colors duration-300">
-
-                    <!-- Palabra original -->
                     <div class="mb-4">
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Palabra:</p>
                         <p id="resultWord" class="text-2xl font-bold text-gray-800 dark:text-white"></p>
                     </div>
-
-                    <!-- IPA -->
                     <div class="mb-4" id="ipaSection">
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">IPA:</p>
                         <p id="resultIPA" class="text-xl text-gray-700 dark:text-gray-300 font-mono"></p>
                     </div>
-
-                    <!-- Pronunciación en español -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md transition-colors duration-300">
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">🎯 Pronunciación en español:</p>
                         <p id="resultSpanish" class="text-4xl font-bold text-indigo-600 dark:text-indigo-400"></p>
@@ -123,11 +87,14 @@
                                 🔊 <span id="audioBtnText">Escuchar</span>
                             </button>
                         </div>
+                        <!-- Guía contextual inline -->
+                        <div id="pronunciationGuide" class="mt-4 hidden">
+                            <p id="pronunciationTip" class="text-xs text-gray-500 dark:text-gray-400 italic leading-relaxed"></p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Error -->
             <div id="error" class="mt-8 hidden">
                 <div class="bg-red-50 dark:bg-red-900 border-2 border-red-200 dark:border-red-700 rounded-xl p-4 transition-colors duration-300">
                     <p class="text-red-700 dark:text-red-300">
@@ -137,7 +104,6 @@
                 </div>
             </div>
 
-            <!-- Loading -->
             <div id="loading" class="mt-8 hidden text-center">
                 <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent"></div>
                 <p class="text-gray-600 dark:text-gray-400 mt-4">Traduciendo...</p>
@@ -165,13 +131,10 @@
 
     </main>
 
-    <!-- Footer -->
     <footer class="max-w-4xl mx-auto px-4 py-8 text-center text-gray-600 dark:text-gray-400 transition-colors duration-300">
         <p>Hecho con ❤️ para hispanohablantes aprendiendo inglés</p>
         <p class="mt-2">
-            <a href="https://github.com/N7C0LAS/jelou" target="_blank" class="text-indigo-600 dark:text-indigo-400 hover:underline">
-                Ver en GitHub
-            </a>
+            <a href="https://github.com/N7C0LAS/jelou" target="_blank" class="text-indigo-600 dark:text-indigo-400 hover:underline">Ver en GitHub</a>
         </p>
     </footer>
 

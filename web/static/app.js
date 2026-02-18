@@ -223,6 +223,9 @@ function showResult(data) {
     // Mostrar resultado con animación
     resultDiv.classList.remove('hidden');
     resultDiv.classList.add('fade-in');
+
+    // Mostrar guía contextual de pronunciación
+    showPronunciationGuide(data.spanish || '');
 }
 
 /**
@@ -427,3 +430,39 @@ function toggleTheme() {
     const icon = document.getElementById('themeIcon');
     if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
 })();
+
+
+// =========================
+// GUÍA CONTEXTUAL DE PRONUNCIACIÓN
+// =========================
+
+const PRONUNCIATION_TIPS = {
+    'sh': '💡 SH se pronuncia como cuando pides silencio: "shhhh"',
+    'ng': '💡 NG se pronuncia como la N de "banco" o "tango"',
+    'er': '💡 ER es un sonido único del inglés — lengua curvada hacia atrás',
+    'ch': '💡 CH se pronuncia igual que en español: "chico"',
+    'z': '💡 Z se pronuncia como la Z española — lengua entre dientes soplando'
+};
+
+function showPronunciationGuide(spanish) {
+    const guide = document.getElementById('pronunciationGuide');
+    const tip = document.getElementById('pronunciationTip');
+    if (!guide || !tip) return;
+
+    const text = spanish.toLowerCase();
+    const tips = [];
+
+    if (text.includes('sh')) tips.push(PRONUNCIATION_TIPS['sh']);
+    if (text.includes('ng')) tips.push(PRONUNCIATION_TIPS['ng']);
+    if (text.includes('er')) tips.push(PRONUNCIATION_TIPS['er']);
+    if (text.includes('ch')) tips.push(PRONUNCIATION_TIPS['ch']);
+    if (text.includes('z')) tips.push(PRONUNCIATION_TIPS['z']);
+
+    if (tips.length === 0) {
+        guide.classList.add('hidden');
+        return;
+    }
+
+    tip.innerHTML = tips.join('<br>');
+    guide.classList.remove('hidden');
+}
