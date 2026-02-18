@@ -31,7 +31,7 @@ La aplicación web ofrece:
 - ⚡ Traducción instantánea de 126,052 palabras
 - 🔄 Dos modos: Palabra en inglés + IPA directo
 - 🔊 Audio de pronunciación en inglés nativo
-- 📋 Botón para copiar el resultado
+- 📋 Botón para copiar la transliteración
 - 💡 Ejemplos interactivos
 
 **No requiere instalación** - solo abre el link y empieza a usar.
@@ -43,7 +43,7 @@ La aplicación web ofrece:
 - 🎯 **126,052 palabras** del CMU Pronouncing Dictionary
 - 🔄 **Conversión automática**: palabra → IPA → español
 - 🔊 **Audio de pronunciación** en inglés nativo (Web Speech API)
-- 📋 **Botón de copiar** resultado al portapapeles
+- 📋 **Botón de copiar** la transliteración al portapapeles
 - 🎨 **Modo IPA directo** para usuarios avanzados
 - 📦 **Sistema de caché** (descarga una vez, usa offline en CLI)
 - 🧪 **34 tests** validando cada componente
