@@ -395,3 +395,35 @@ function speakWord() {
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
 }
+
+
+// =========================
+// MODO OSCURO
+// =========================
+
+/**
+ * Alterna entre modo claro y oscuro.
+ * Guarda la preferencia en localStorage.
+ */
+function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.classList.contains('dark');
+    const icon = document.getElementById('themeIcon');
+
+    if (isDark) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        icon.textContent = '🌙';
+    } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        icon.textContent = '☀️';
+    }
+}
+
+// Sincronizar ícono con tema actual al cargar
+(function() {
+    const theme = localStorage.getItem('theme') || 'light';
+    const icon = document.getElementById('themeIcon');
+    if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+})();
