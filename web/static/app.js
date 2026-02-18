@@ -207,20 +207,19 @@ async function translate() {
 function showResult(data) {
     // Ocultar otros estados
     hideAll();
-    
+
     // Poblar elementos con datos
     resultWord.textContent = data.word;
     resultIPA.textContent = data.ipa || '-';
     resultSpanish.textContent = data.spanish;
-    
+
     // Mostrar/ocultar sección IPA según el modo
-    // En modo IPA directo, no tiene sentido mostrar el IPA otra vez
     if (currentMode === 'ipa') {
         ipaSection.classList.add('hidden');
     } else {
         ipaSection.classList.remove('hidden');
     }
-    
+
     // Mostrar resultado con animación
     resultDiv.classList.remove('hidden');
     resultDiv.classList.add('fade-in');
@@ -347,7 +346,6 @@ function copyResult() {
             btn.textContent = 'Copiar';
         }, 2000);
     }).catch(() => {
-        // Fallback para navegadores sin soporte clipboard API
         const textarea = document.createElement('textarea');
         textarea.value = text;
         document.body.appendChild(textarea);
