@@ -1,6 +1,6 @@
 # 🗣️ Jelou
 
-**Pronunciación de inglés hecha simple para hispanohablantes**
+**Haz que el inglés hable tu idioma para hispanohablantes**
 
 Jelou es un motor de adaptación fonética que convierte palabras en inglés a una representación fonética legible, eliminando la barrera del Alfabeto Fonético Internacional (IPA).
 
