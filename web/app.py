@@ -31,6 +31,8 @@ Licencia: MIT
 
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import sys
 from pathlib import Path
 
@@ -48,9 +50,15 @@ from jelou import translate_word, translate_ipa  # noqa: E402
 app = Flask(__name__)
 
 # Habilitar CORS (Cross-Origin Resource Sharing)
-# Permite que la API sea accesible desde otros dominios
-# Útil para desarrollo y para futuras apps móviles
 CORS(app)
+
+# Rate limiting - proteger la API de abuso
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
 
 
 # =========================
@@ -82,6 +90,7 @@ def index():
 
 
 @app.route("/api/translate", methods=["POST"])
+@limiter.limit("30 per minute")
 def translate():
     """
     Endpoint API para traducir palabras o IPA a español.
