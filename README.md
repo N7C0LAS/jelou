@@ -53,6 +53,10 @@ La aplicación web ofrece:
 - 🌐 **Aplicación web** accesible desde cualquier dispositivo
 - 📝 **Código completamente documentado** para contribuidores
 - 🧹 **Código limpio** con Black y Flake8
+- 🛡️ **Rate limiting** — protección contra abuso de la API
+- 🚨 **Páginas de error** 404 y 500 personalizadas
+- 🔍 **SEO** optimizado con og:tags
+- 🎨 **Favicon** personalizado
 - 🎯 **Sistema de acentos** — sílaba tónica correcta (coffee → káfi)
 - 🌙 **Modo oscuro** con persistencia
 - 🗣️ **Guía contextual** de pronunciación
