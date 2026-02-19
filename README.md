@@ -32,6 +32,8 @@ La aplicación web ofrece:
 - 🔄 Dos modos: Palabra en inglés + IPA directo
 - 🔊 Audio de pronunciación en inglés nativo
 - 📋 Botón para copiar la transliteración
+- 🌙 Modo oscuro
+- 🗣️ Guía contextual de pronunciación por resultado
 - 💡 Ejemplos interactivos
 
 **No requiere instalación** - solo abre el link y empieza a usar.
@@ -51,6 +53,9 @@ La aplicación web ofrece:
 - 🌐 **Aplicación web** accesible desde cualquier dispositivo
 - 📝 **Código completamente documentado** para contribuidores
 - 🧹 **Código limpio** con Black y Flake8
+- 🎯 **Sistema de acentos** — sílaba tónica correcta (coffee → káfi)
+- 🌙 **Modo oscuro** con persistencia
+- 🗣️ **Guía contextual** de pronunciación
 
 ---
 
@@ -321,11 +326,16 @@ Las siguientes ejecuciones serán **instantáneas** (usa caché local).
 - /dʒ/ contextual (age → eish)
 - Sistema de marcadores temporales
 
-### ✅ v0.3.0 - Calidad y UX (Actual)
+### ✅ v0.3.0 - Calidad, UX y Precisión Fonética (Actual)
 - Linter configurado (Black + Flake8) — 0 errores
 - Google Analytics integrado
-- Botón de copiar resultado
+- Botón de copiar transliteración
 - Audio de pronunciación (Web Speech API)
+- Modo oscuro con persistencia
+- Tagline: "Haz que el inglés hable tu idioma"
+- Estadísticas en lugar de ejemplos populares
+- Guía contextual de pronunciación por resultado
+- Sistema de acentos corregido (coffee → káfi, hello → jalóu)
 
 ### 🚧 Próximo
 - [ ] Soporte para frases completas
