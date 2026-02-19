@@ -44,7 +44,7 @@ ARPABET_TO_IPA = {
     "ER": "ɝ",  # Vocal r-coloreada: "bird" /bɝd/
     "EY": "eɪ",  # Diptongo: "day" /deɪ/
     "IH": "ɪ",  # Vocal alta frontal corta: "sit" /sɪt/
-    "IY": "iː",  # Vocal alta frontal larga: "see" /siː/
+    "IY": "i",  # Vocal alta frontal: "see" /siː/ (acento se agrega con stress=1)
     "OW": "oʊ",  # Diptongo: "go" /ɡoʊ/
     "OY": "ɔɪ",  # Diptongo: "boy" /bɔɪ/
     "UH": "ʊ",  # Vocal alta posterior corta: "book" /bʊk/
@@ -136,19 +136,44 @@ def arpabet_to_ipa(arpabet_sequence: str) -> str:
     # Lista para acumular los símbolos IPA resultantes
     ipa_result = []
 
+    # Tabla de vocales acentuadas (stress=1 o stress=2)
+    # Cuando una vocal tiene acento primario o secundario, usamos la versión acentuada
+    STRESSED_VOWELS = {
+        "AA": "ɑ́",  # father → fáder
+        "AE": "á",   # cat → kát
+        "AH": "á",   # but → bát
+        "AO": "ó",   # dog → dóg
+        "AW": "áu",  # now → náu
+        "AY": "ái",  # time → táim
+        "EH": "é",   # bed → béd
+        "ER": "ér",  # bird → bérd
+        "EY": "éi",  # day → déi
+        "IH": "í",   # sit → sít
+        "IY": "í",   # see → sí
+        "OW": "óu",  # go → góu
+        "OY": "ói",  # boy → bói
+        "UH": "ú",   # book → búk
+        "UW": "ú",   # food → fúd
+    }
+
     # Paso 2: Procesar cada fonema
     for phoneme in phonemes:
-        # Limpiar el fonema: remover números de estrés (0, 1, 2)
-        # Ejemplo: "AH1" → "AH", "OW0" → "OW"
+        # Extraer número de estrés si existe
+        stress = ""
+        if phoneme and phoneme[-1] in "012":
+            stress = phoneme[-1]
+
+        # Limpiar el fonema
         clean_phoneme = phoneme.rstrip("012")
 
         # Paso 3: Buscar en la tabla de conversión
         if clean_phoneme in ARPABET_TO_IPA:
-            # Fonema encontrado: usar su equivalente IPA
-            ipa_result.append(ARPABET_TO_IPA[clean_phoneme])
+            # Si tiene acento primario o secundario y es vocal, usar versión acentuada
+            if stress in ("1", "2") and clean_phoneme in STRESSED_VOWELS:
+                ipa_result.append(STRESSED_VOWELS[clean_phoneme])
+            else:
+                ipa_result.append(ARPABET_TO_IPA[clean_phoneme])
         else:
-            # Fonema no encontrado: pasar tal cual en minúsculas (fallback)
-            # Esto maneja casos raros o variantes no estándar
             ipa_result.append(clean_phoneme.lower())
 
     # Paso 4: Unir todos los símbolos IPA en una sola cadena
