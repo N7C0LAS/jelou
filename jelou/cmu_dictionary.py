@@ -27,7 +27,7 @@ import urllib.request
 from pathlib import Path
 from typing import Dict, Optional
 
-from jelou.arpabet_to_ipa import parse_cmu_line
+from jelou.arpabet_to_ipa import parse_cmu_line, arpabet_to_ipa_clean
 
 # =========================
 # CONFIGURACIÓN
@@ -197,9 +197,15 @@ class CMUDictionary:
                     # Solo guardar primera pronunciación
                     # Ignorar variantes (READ(1), READ(2), etc.)
                     if word not in self._dict:
+                        # Guardar IPA con marcadores de acento para el motor fonético
                         self._dict[word] = ipa
 
         print(f"✅ Diccionario cargado: {len(self._dict)} palabras")
+
+    def lookup_with_stress(self, word: str) -> Optional[str]:
+        """Devuelve IPA con marcadores de acento. Para uso interno del motor fonético."""
+        self.load()
+        return self._dict.get(word.lower())
 
     def lookup(self, word: str) -> Optional[str]:
         """
@@ -239,7 +245,10 @@ class CMUDictionary:
             self.load()
 
         # Búsqueda case-insensitive
-        return self._dict.get(word.lower())
+        result = self._dict.get(word.lower())
+        if result:
+            return result.replace("~~STRESS~~", "")
+        return None
 
     def __len__(self) -> int:
         """
@@ -314,3 +323,11 @@ def lookup_word(word: str) -> Optional[str]:
         traducir palabras a español.
     """
     return _cmu_dict.lookup(word)
+
+
+def lookup_word_with_stress(word: str) -> Optional[str]:
+    """Devuelve IPA con marcadores de acento. Para uso interno del motor fonético."""
+    global _cmu_dict
+    if _cmu_dict is None:
+        _cmu_dict = get_dictionary()
+    return _cmu_dict.lookup_with_stress(word)

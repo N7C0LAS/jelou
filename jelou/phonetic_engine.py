@@ -133,10 +133,26 @@ def ipa_to_spanish(ipa: str) -> str:
         - /dʒ/ después de vocal → "sh" (age → eish)
         - /pj/ → "pi" (computer → kampiúter)
     """
-    # Paso 1: Normalizar entrada
-    result = ipa.lower()
+    # Paso 1: Procesar marcadores de acento ANTES de normalizar
+    # Extraer posiciones de acento antes de perderlas con lower()
+    import re
+    stressed_ipa = ipa
 
-    # Paso 2: Eliminar marcas de acento del IPA (no las usamos en español)
+    # Reemplazar ~~STRESS~~VOCAL con la vocal acentuada directamente
+    STRESS_MAP = {
+        "aʊ": "áu", "aɪ": "ái", "eɪ": "éi", "oʊ": "óu", "ɔɪ": "ói",
+        "iː": "í", "uː": "ú",
+        "ɑ": "á", "æ": "á", "ʌ": "á", "ɔ": "ó",
+        "ɛ": "é", "ɝ": "ér", "ɪ": "í", "i": "í", "ʊ": "ú",
+    }
+    for ipa_v, esp_v in sorted(STRESS_MAP.items(), key=lambda x: -len(x[0])):
+        stressed_ipa = stressed_ipa.replace("~~STRESS~~" + ipa_v, "~~A~~" + esp_v)
+    stressed_ipa = stressed_ipa.replace("~~STRESS~~", "")
+
+    # Paso 1b: Normalizar entrada
+    result = stressed_ipa.lower()
+
+    # Paso 2: Eliminar marcas de acento del IPA estándar
     result = result.replace("ˈ", "").replace("ˌ", "")
 
     # Paso 3: ESPECIAL - Proteger /j/ IPA y resultados de reglas compuestas
@@ -175,5 +191,8 @@ def ipa_to_spanish(ipa: str) -> str:
     # Paso 10: Correcciones fonéticas finales
     result = result.replace("ngk", "nk")
     result = result.replace("ngg", "ng")
+
+    # Paso 11: Restaurar vocales acentuadas
+    result = result.replace("~~a~~", "")
 
     return result

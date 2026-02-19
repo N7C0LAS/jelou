@@ -136,24 +136,11 @@ def arpabet_to_ipa(arpabet_sequence: str) -> str:
     # Lista para acumular los símbolos IPA resultantes
     ipa_result = []
 
-    # Tabla de vocales acentuadas (stress=1 o stress=2)
-    # Cuando una vocal tiene acento primario o secundario, usamos la versión acentuada
+    # Vocales que reciben marcador de acento
     STRESSED_VOWELS = {
-        "AA": "ɑ́",  # father → fáder
-        "AE": "á",   # cat → kát
-        "AH": "á",   # but → bát
-        "AO": "ó",   # dog → dóg
-        "AW": "áu",  # now → náu
-        "AY": "ái",  # time → táim
-        "EH": "é",   # bed → béd
-        "ER": "ér",  # bird → bérd
-        "EY": "éi",  # day → déi
-        "IH": "í",   # sit → sít
-        "IY": "í",   # see → sí
-        "OW": "óu",  # go → góu
-        "OY": "ói",  # boy → bói
-        "UH": "ú",   # book → búk
-        "UW": "ú",   # food → fúd
+        "AA", "AE", "AH", "AO", "AW", "AY",
+        "EH", "ER", "EY", "IH", "IY", "OW",
+        "OY", "UH", "UW"
     }
 
     # Paso 2: Procesar cada fonema
@@ -168,16 +155,25 @@ def arpabet_to_ipa(arpabet_sequence: str) -> str:
 
         # Paso 3: Buscar en la tabla de conversión
         if clean_phoneme in ARPABET_TO_IPA:
-            # Si tiene acento primario o secundario y es vocal, usar versión acentuada
+            ipa_symbol = ARPABET_TO_IPA[clean_phoneme]
+            # Agregar marcador temporal de acento para que phonetic_engine lo use
+            # El IPA se muestra sin acentos, solo el español los tendrá
             if stress in ("1", "2") and clean_phoneme in STRESSED_VOWELS:
-                ipa_result.append(STRESSED_VOWELS[clean_phoneme])
+                ipa_result.append("~~STRESS~~" + ipa_symbol)
             else:
-                ipa_result.append(ARPABET_TO_IPA[clean_phoneme])
+                ipa_result.append(ipa_symbol)
         else:
             ipa_result.append(clean_phoneme.lower())
 
     # Paso 4: Unir todos los símbolos IPA en una sola cadena
     return "".join(ipa_result)
+
+
+def arpabet_to_ipa_clean(arpabet_sequence: str) -> str:
+    """Devuelve IPA puro sin marcadores de acento. Para mostrar al usuario."""
+    result = arpabet_to_ipa(arpabet_sequence)
+    result = result.replace("~~STRESS~~", "")
+    return result
 
 
 def parse_cmu_line(line: str) -> Optional[Tuple[str, str]]:
@@ -250,8 +246,8 @@ def parse_cmu_line(line: str) -> Optional[Tuple[str, str]]:
     # Convertir a minúsculas para consistencia
     word = word.split("(")[0].lower()
 
-    # Paso 5: Convertir ARPABET a IPA
-    ipa = arpabet_to_ipa(arpabet)
+    # Paso 5: Convertir ARPABET a IPA limpio (sin marcadores)
+    ipa = arpabet_to_ipa_clean(arpabet)
 
     # Paso 6: Retornar tupla (palabra, ipa)
     return (word, ipa)

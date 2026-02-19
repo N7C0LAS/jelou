@@ -35,7 +35,7 @@ Licencia: MIT
 
 from typing import List, Dict
 
-from jelou.cmu_dictionary import lookup_word
+from jelou.cmu_dictionary import lookup_word, lookup_word_with_stress
 from jelou.phonetic_engine import ipa_to_spanish
 
 # =========================
@@ -107,11 +107,12 @@ def translate_word(word: str) -> Dict:
 
     # Paso 1: Buscar palabra en diccionario CMU
     # Retorna IPA o None si no existe
-    ipa = lookup_word(word)
+    ipa_display = lookup_word(word)  # IPA limpio para mostrar al usuario
+    ipa = lookup_word_with_stress(word)  # IPA con marcadores para el motor fonético
 
     # Paso 2: Si se encontró, convertir a español
     if ipa:
-        result["ipa"] = ipa
+        result["ipa"] = ipa_display
         result["spanish"] = ipa_to_spanish(ipa)
         result["found"] = True
 
