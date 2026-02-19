@@ -13,6 +13,10 @@ Todos los cambios notables de Jelou están documentados aquí.
   - getVoices() ahora espera onvoiceschanged antes de verificar disponibilidad
   - Chrome carga voces de forma asíncrona — antes se detectaba erróneamente como Brave
   - Brave y navegadores sin voces siguen mostrando el mensaje correctamente
+- Doble acento en palabras largas como "impossible" e "information"
+  - arpabet_to_ipa: stress secundario (2) se ignora — en español no existe esa distinción
+  - cuando hay múltiples stress primarios (1), se conserva únicamente el último
+  - corrige palabras como "information" → informéishan, "communication" → kamiúnakéishan
 
 ## [0.3.0] - 2026-02-18
 
