@@ -18,7 +18,7 @@ Principios de diseño:
 4. Resultado pronunciable sin contexto adicional
 5. Precisión fonética sobre simplicidad
 
-Versión: 0.2.2 (Correcciones fonéticas)
+Versión: 0.2.3 (Correcciones fonéticas)
 Autor: Nicolás Espejo
 Proyecto: Jelou
 Licencia: MIT
@@ -127,9 +127,10 @@ def ipa_to_spanish(ipa: str) -> str:
         Las marcas de acento primario (ˈ) y secundario (ˌ) del IPA
         se eliminan ya que el español usa acentos gráficos.
 
-    Cambios en v0.2.2:
-        - Corrección: vocales dobles "ii" → "i", "íi" → "í"
-          para palabras como "vehicle" donde IY+IH generaban duplicado.
+    Cambios en v0.2.3:
+        - Corrección: secuencia "íi" → "íe" e "ii" → "ie"
+          para palabras como "vehicle" donde IY+IH generaban
+          vocal doble en lugar del diptongo correcto.
     """
     # Paso 1: Procesar marcadores de acento ANTES de normalizar
     # Extraer posiciones de acento antes de perderlas con lower()
@@ -189,10 +190,10 @@ def ipa_to_spanish(ipa: str) -> str:
     # Paso 10: Correcciones fonéticas finales
     result = result.replace("ngk", "nk")
     result = result.replace("ngg", "ng")
-    # Vocales dobles idénticas producto de IY+IH o secuencias similares
-    # No ocurren en español — se contraen en una sola vocal
-    result = result.replace("íi", "í")
-    result = result.replace("ii", "i")
+    # Secuencias de vocales i+i producto de IY+IH se convierten en diptongo ie
+    # Ej: "vehicle" IY1+IH0 → "íi" → "íe" → víekal
+    result = result.replace("íi", "íe")
+    result = result.replace("ii", "ie")
 
     # Paso 11: Restaurar vocales acentuadas
     result = result.replace("~~a~~", "")
