@@ -48,7 +48,7 @@ La aplicación web ofrece:
 - 📋 **Botón de copiar** la transliteración al portapapeles
 - 🎨 **Modo IPA directo** para usuarios avanzados
 - 📦 **Sistema de caché** (descarga una vez, usa offline en CLI)
-- 🧪 **34 tests** validando cada componente
+- 🧪 **41 tests** validando cada componente
 - 🐍 **API Python** para integración en otros proyectos
 - 🌐 **Aplicación web** accesible desde cualquier dispositivo
 - 📝 **Código completamente documentado** para contribuidores
@@ -192,7 +192,7 @@ pytest tests/test_integration.py
 pytest tests/test_arpabet_to_ipa.py
 ```
 
-**Resultado actual:** ✅ 34/34 tests pasando en Python 3.9-3.12
+**Resultado actual:** ✅ 41/41 tests pasando en Python 3.9-3.12
 
 ---
 
@@ -311,7 +311,7 @@ Las siguientes ejecuciones serán **instantáneas** (usa caché local).
 - Integración CMU Dictionary
 - CLI con dos modos
 - API Python pública
-- 34 tests automatizados
+- 41 tests automatizados
 
 ### ✅ v0.2.0 - Aplicación Web
 - Aplicación web completa con Flask
