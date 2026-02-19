@@ -18,7 +18,7 @@ Principios de diseño:
 4. Resultado pronunciable sin contexto adicional
 5. Precisión fonética sobre simplicidad
 
-Versión: 0.2.1 (Correcciones fonéticas)
+Versión: 0.2.2 (Correcciones fonéticas)
 Autor: Nicolás Espejo
 Proyecto: Jelou
 Licencia: MIT
@@ -104,7 +104,7 @@ def ipa_to_spanish(ipa: str) -> str:
     2. Aplica reglas compuestas (deben ir primero)
     3. Aplica reglas de vocales
     4. Aplica reglas de consonantes
-    5. Aplica correcciones contextuales (NUEVO)
+    5. Aplica correcciones contextuales
     6. Aplica correcciones fonéticas finales
 
     Args:
@@ -127,11 +127,9 @@ def ipa_to_spanish(ipa: str) -> str:
         Las marcas de acento primario (ˈ) y secundario (ˌ) del IPA
         se eliminan ya que el español usa acentos gráficos.
 
-    Cambios en v0.2.1:
-        - /h/ → "j" (hello → jelou)
-        - /j/ → "i" (yes → ies)
-        - /dʒ/ después de vocal → "sh" (age → eish)
-        - /pj/ → "pi" (computer → kampiúter)
+    Cambios en v0.2.2:
+        - Corrección: vocales dobles "ii" → "i", "íi" → "í"
+          para palabras como "vehicle" donde IY+IH generaban duplicado.
     """
     # Paso 1: Procesar marcadores de acento ANTES de normalizar
     # Extraer posiciones de acento antes de perderlas con lower()
@@ -191,6 +189,10 @@ def ipa_to_spanish(ipa: str) -> str:
     # Paso 10: Correcciones fonéticas finales
     result = result.replace("ngk", "nk")
     result = result.replace("ngg", "ng")
+    # Vocales dobles idénticas producto de IY+IH o secuencias similares
+    # No ocurren en español — se contraen en una sola vocal
+    result = result.replace("íi", "í")
+    result = result.replace("ii", "i")
 
     # Paso 11: Restaurar vocales acentuadas
     result = result.replace("~~a~~", "")

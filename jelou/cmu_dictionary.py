@@ -27,7 +27,7 @@ import urllib.request
 from pathlib import Path
 from typing import Dict, Optional
 
-from jelou.arpabet_to_ipa import parse_cmu_line, arpabet_to_ipa_clean
+from jelou.arpabet_to_ipa import arpabet_to_ipa, arpabet_to_ipa_clean
 
 # =========================
 # CONFIGURACIÓN
@@ -64,7 +64,7 @@ class CMUDictionary:
     para evitar cargar 126,000 palabras múltiples veces.
 
     Attributes:
-        _dict (Dict[str, str]): Diccionario palabra → pronunciación IPA
+        _dict (Dict[str, str]): Diccionario palabra → IPA con marcadores de stress
         _loaded (bool): Indica si el diccionario ya está cargado en memoria
     """
 
@@ -167,13 +167,22 @@ class CMUDictionary:
         --------
         1. Abrir archivo
         2. Leer línea por línea
-        3. Parsear cada línea (palabra + ARPABET → IPA)
+        3. Parsear cada línea (palabra + ARPABET → IPA con stress)
         4. Almacenar en diccionario interno
 
         Gestión de variantes:
         ---------------------
-        Si una palabra tiene múltiples pronunciaciones (ej: READ(1), READ(2)),
-        solo guardamos la primera. Esto simplifica la API y cubre el 99% de casos.
+        Las variantes de pronunciación (WORD(1), WORD(2)) se procesan
+        todas, permitiendo que cada variante sobreescriba a la anterior.
+        Esto asegura que el CMU Dictionary use su pronunciación más
+        natural y representativa (ej: "vehicle(2)" elimina la HH muda).
+
+        Almacenamiento de stress:
+        -------------------------
+        El IPA se guarda CON los marcadores ~~STRESS~~ para que el motor
+        fonético pueda aplicar acentos correctamente al español.
+        El método lookup() los elimina al devolver resultados al usuario.
+        El método lookup_with_stress() los conserva para uso interno.
 
         Args:
             filepath (Path): Ruta al archivo del diccionario
@@ -184,21 +193,28 @@ class CMUDictionary:
         """
         print(f"📖 Cargando diccionario desde: {filepath}")
 
-        # Abrir archivo en modo lectura con codificación UTF-8
         with open(filepath, "r", encoding="utf-8") as f:
-            # Procesar línea por línea (eficiente en memoria)
             for line in f:
-                # Parsear línea: retorna (palabra, ipa) o None
-                result = parse_cmu_line(line)
+                line = line.strip()
 
-                if result:
-                    word, ipa = result
+                # Ignorar líneas vacías o comentarios
+                if not line or line.startswith(";;;"):
+                    continue
 
-                    # Solo guardar primera pronunciación
-                    # Ignorar variantes (READ(1), READ(2), etc.)
-                    if word not in self._dict:
-                        # Guardar IPA con marcadores de acento para el motor fonético
-                        self._dict[word] = ipa
+                # Separar palabra de fonemas
+                parts = line.split(maxsplit=1)
+                if len(parts) < 2:
+                    continue
+
+                word, arpabet = parts
+
+                # Limpiar variantes: "HELLO(2)" → "hello"
+                word = word.split("(")[0].lower()
+
+                # Guardar IPA con marcadores ~~STRESS~~ intactos.
+                # Las variantes posteriores sobreescriben a las anteriores,
+                # usando la pronunciación más natural del CMU Dictionary.
+                self._dict[word] = arpabet_to_ipa(arpabet)
 
         print(f"✅ Diccionario cargado: {len(self._dict)} palabras")
 
@@ -216,7 +232,7 @@ class CMUDictionary:
         1. Asegurar que el diccionario esté cargado (lazy loading)
         2. Normalizar palabra a minúsculas
         3. Buscar en diccionario interno
-        4. Retornar IPA o None
+        4. Retornar IPA limpio (sin marcadores de stress) o None
 
         Args:
             word (str): Palabra en inglés a buscar (case-insensitive)
@@ -244,7 +260,7 @@ class CMUDictionary:
         if not self._loaded:
             self.load()
 
-        # Búsqueda case-insensitive
+        # Búsqueda case-insensitive, devolver IPA sin marcadores de stress
         result = self._dict.get(word.lower())
         if result:
             return result.replace("~~STRESS~~", "")
