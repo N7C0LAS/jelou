@@ -92,16 +92,20 @@ def arpabet_to_ipa(arpabet_sequence: str) -> str:
     --------
     1. Divide la secuencia en fonemas individuales (separados por espacios)
     2. Limpia cada fonema eliminando los números de estrés (0, 1, 2)
-    3. Busca cada fonema en la tabla de conversión
-    4. Une todos los símbolos IPA resultantes
+    3. Identifica cuál vocal con stress primario (1) es la tónica principal
+       — si hay más de una, se toma la última para palabras como "information"
+    4. Busca cada fonema en la tabla de conversión
+    5. Une todos los símbolos IPA resultantes
 
     Números de estrés en ARPABET:
     ------------------------------
     0 = Sin estrés (átona)
     1 = Estrés primario (tónica principal)
-    2 = Estrés secundario (tónica secundaria)
+    2 = Estrés secundario (tónica secundaria) — se ignora en español
 
-    Estos números se eliminan porque en español usamos acentos gráficos (á, é, í).
+    En español solo existe una sílaba tónica por palabra, por lo que
+    el stress secundario (2) se descarta y cuando hay múltiples stress
+    primarios (1) se conserva únicamente el último.
 
     Args:
         arpabet_sequence (str): Fonemas ARPABET separados por espacios.
@@ -133,9 +137,6 @@ def arpabet_to_ipa(arpabet_sequence: str) -> str:
     # Paso 1: Normalizar a mayúsculas y separar por espacios
     phonemes = arpabet_sequence.upper().split()
 
-    # Lista para acumular los símbolos IPA resultantes
-    ipa_result = []
-
     # Vocales que reciben marcador de acento
     STRESSED_VOWELS = {
         "AA", "AE", "AH", "AO", "AW", "AY",
@@ -143,8 +144,20 @@ def arpabet_to_ipa(arpabet_sequence: str) -> str:
         "OY", "UH", "UW"
     }
 
-    # Paso 2: Procesar cada fonema
-    for phoneme in phonemes:
+    # Paso 2: Identificar el índice de la vocal tónica principal.
+    # Si hay más de un stress primario (1), se toma el último.
+    # Esto resuelve palabras como "information" (IH2 N F AO1 R M EY1 SH AH0 N)
+    # donde CMU marca dos vocales con stress 1 — la tónica real es la última.
+    primary_stress_index = None
+    for i, phoneme in enumerate(phonemes):
+        if phoneme and phoneme[-1] == "1":
+            clean = phoneme.rstrip("012")
+            if clean in STRESSED_VOWELS:
+                primary_stress_index = i
+
+    # Paso 3: Procesar cada fonema
+    ipa_result = []
+    for i, phoneme in enumerate(phonemes):
         # Extraer número de estrés si existe
         stress = ""
         if phoneme and phoneme[-1] in "012":
@@ -153,19 +166,18 @@ def arpabet_to_ipa(arpabet_sequence: str) -> str:
         # Limpiar el fonema
         clean_phoneme = phoneme.rstrip("012")
 
-        # Paso 3: Buscar en la tabla de conversión
+        # Paso 4: Buscar en la tabla de conversión
         if clean_phoneme in ARPABET_TO_IPA:
             ipa_symbol = ARPABET_TO_IPA[clean_phoneme]
-            # Agregar marcador temporal de acento para que phonetic_engine lo use
-            # El IPA se muestra sin acentos, solo el español los tendrá
-            if stress in ("1", "2") and clean_phoneme in STRESSED_VOWELS:
+            # Agregar marcador de acento solo a la vocal tónica principal
+            if i == primary_stress_index:
                 ipa_result.append("~~STRESS~~" + ipa_symbol)
             else:
                 ipa_result.append(ipa_symbol)
         else:
             ipa_result.append(clean_phoneme.lower())
 
-    # Paso 4: Unir todos los símbolos IPA en una sola cadena
+    # Paso 5: Unir todos los símbolos IPA en una sola cadena
     return "".join(ipa_result)
 
 
@@ -226,24 +238,18 @@ def parse_cmu_line(line: str) -> Optional[Tuple[str, str]]:
     line = line.strip()
 
     # Paso 2: Ignorar líneas vacías o comentarios
-    # El CMU Dictionary usa ";;;" para indicar comentarios
     if not line or line.startswith(";;;"):
         return None
 
     # Paso 3: Separar la palabra de los fonemas
-    # maxsplit=1 divide solo en el primer espacio
-    # Ejemplo: "HELLO  HH AH0 L OW1" → ["HELLO", "HH AH0 L OW1"]
     parts = line.split(maxsplit=1)
 
-    # Validar que la línea tiene ambas partes (palabra y fonemas)
     if len(parts) < 2:
         return None
 
     word, arpabet = parts
 
     # Paso 4: Limpiar la palabra
-    # Remover indicadores de variante: "HELLO(2)" → "HELLO"
-    # Convertir a minúsculas para consistencia
     word = word.split("(")[0].lower()
 
     # Paso 5: Convertir ARPABET a IPA limpio (sin marcadores)
