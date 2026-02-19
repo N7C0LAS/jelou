@@ -2,6 +2,18 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.3.1] - 2026-02-19
+
+### Corregido
+- Transliteración de "vehicle" y palabras con H muda entre vocales
+  - cmu_dictionary: ahora guarda IPA con marcadores ~~STRESS~~ intactos
+  - cmu_dictionary: variantes (2) sobreescriben a (1) para usar pronunciación más natural del CMU Dictionary
+  - phonetic_engine: secuencia íi→íe e ii→ie para producir diptongo correcto (víekal en lugar de víkal)
+- Audio en Chrome: botón "Escuchar" mostraba alert incorrecto
+  - getVoices() ahora espera onvoiceschanged antes de verificar disponibilidad
+  - Chrome carga voces de forma asíncrona — antes se detectaba erróneamente como Brave
+  - Brave y navegadores sin voces siguen mostrando el mensaje correctamente
+
 ## [0.3.0] - 2026-02-18
 
 ### Añadido
