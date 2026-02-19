@@ -67,23 +67,15 @@ const errorMessage = document.getElementById('errorMessage');
 
 /**
  * Cambia al modo "Palabra en inglés"
- * 
- * Actualiza:
- * - Estado global (currentMode)
- * - Estilos de botones
- * - Etiqueta y placeholder del input
- * - Limpia resultados anteriores
  */
 modeWordBtn.addEventListener('click', () => {
     currentMode = 'word';
     
-    // Actualizar estilos de botones
     modeWordBtn.classList.remove('bg-gray-200', 'text-gray-700');
     modeWordBtn.classList.add('bg-indigo-600', 'text-white');
     modeIPABtn.classList.remove('bg-indigo-600', 'text-white');
     modeIPABtn.classList.add('bg-gray-200', 'text-gray-700');
     
-    // Actualizar UI
     inputLabel.textContent = 'Escribe una palabra en inglés:';
     wordInput.placeholder = 'Ejemplo: hello';
     wordInput.value = '';
@@ -92,23 +84,15 @@ modeWordBtn.addEventListener('click', () => {
 
 /**
  * Cambia al modo "IPA directo"
- * 
- * Actualiza:
- * - Estado global (currentMode)
- * - Estilos de botones
- * - Etiqueta y placeholder del input
- * - Limpia resultados anteriores
  */
 modeIPABtn.addEventListener('click', () => {
     currentMode = 'ipa';
     
-    // Actualizar estilos de botones
     modeIPABtn.classList.remove('bg-gray-200', 'text-gray-700');
     modeIPABtn.classList.add('bg-indigo-600', 'text-white');
     modeWordBtn.classList.remove('bg-indigo-600', 'text-white');
     modeWordBtn.classList.add('bg-gray-200', 'text-gray-700');
     
-    // Actualizar UI
     inputLabel.textContent = 'Escribe en notación IPA:';
     wordInput.placeholder = 'Ejemplo: θɪŋk';
     wordInput.value = '';
@@ -131,31 +115,20 @@ modeIPABtn.addEventListener('click', () => {
  * 4. Procesar respuesta
  * 5. Mostrar resultado o error
  * 
- * Manejo de errores:
- * ------------------
- * - Entrada vacía → Error de validación
- * - Palabra no encontrada → Error con sugerencia
- * - Error de red → Error de conexión
- * - Error del servidor → Error genérico
- * 
  * @async
  * @returns {Promise<void>}
  */
 async function translate() {
-    // Obtener y limpiar entrada
     const word = wordInput.value.trim();
     
-    // Validación: entrada no puede estar vacía
     if (!word) {
         showError('Por favor escribe una palabra');
         return;
     }
     
-    // Mostrar indicador de carga
     showLoading();
     
     try {
-        // Hacer petición POST a la API
         const response = await fetch('/api/translate', {
             method: 'POST',
             headers: {
@@ -167,24 +140,19 @@ async function translate() {
             })
         });
         
-        // Parsear respuesta JSON
         const data = await response.json();
         
-        // Procesar respuesta según éxito
         if (data.success) {
-            // Verificar si la palabra se encontró (solo en modo palabra)
             if (currentMode === 'word' && !data.found) {
                 showError(`La palabra "${word}" no se encontró en el diccionario. Intenta usar el modo IPA.`);
             } else {
                 showResult(data);
             }
         } else {
-            // Error retornado por la API
             showError(data.error || 'Error desconocido');
         }
         
     } catch (error) {
-        // Error de red o parsing
         showError('Error de conexión. Por favor intenta de nuevo.');
         console.error('Error:', error);
     }
@@ -197,58 +165,38 @@ async function translate() {
 
 /**
  * Muestra el resultado de la traducción.
- * 
- * @param {Object} data - Datos de respuesta de la API
- * @param {string} data.word - Palabra original
- * @param {string} data.ipa - Pronunciación IPA
- * @param {string} data.spanish - Pronunciación en español
- * @param {string} data.mode - Modo usado ('word' o 'ipa')
  */
 function showResult(data) {
-    // Ocultar otros estados
     hideAll();
 
-    // Poblar elementos con datos
     resultWord.textContent = data.word;
     resultIPA.textContent = data.ipa || '-';
     resultSpanish.textContent = data.spanish;
 
-    // Mostrar/ocultar sección IPA según el modo
     if (currentMode === 'ipa') {
         ipaSection.classList.add('hidden');
     } else {
         ipaSection.classList.remove('hidden');
     }
 
-    // Mostrar resultado con animación
     resultDiv.classList.remove('hidden');
     resultDiv.classList.add('fade-in');
 
-    // Mostrar guía contextual de pronunciación
     showPronunciationGuide(data.spanish || '');
 }
 
 /**
  * Muestra un mensaje de error.
- * 
- * @param {string} message - Mensaje de error a mostrar
  */
 function showError(message) {
-    // Ocultar otros estados
     hideAll();
-    
-    // Establecer mensaje
     errorMessage.textContent = message;
-    
-    // Mostrar error con animación
     errorDiv.classList.remove('hidden');
     errorDiv.classList.add('fade-in');
 }
 
 /**
  * Muestra el indicador de carga.
- * 
- * Se muestra mientras se espera la respuesta de la API.
  */
 function showLoading() {
     hideAll();
@@ -257,9 +205,6 @@ function showLoading() {
 
 /**
  * Oculta todos los contenedores de estado.
- * 
- * Útil antes de mostrar un nuevo estado para evitar
- * que múltiples estados sean visibles simultáneamente.
  */
 function hideAll() {
     resultDiv.classList.add('hidden');
@@ -269,7 +214,6 @@ function hideAll() {
 
 /**
  * Oculta los resultados.
- * Alias de hideAll() para claridad semántica.
  */
 function hideResults() {
     hideAll();
@@ -280,41 +224,20 @@ function hideResults() {
 // EVENT LISTENERS
 // =========================
 
-/**
- * Click en botón "Traducir"
- */
 translateBtn.addEventListener('click', translate);
 
-/**
- * Enter en el input
- * Permite traducir presionando Enter sin necesidad de hacer click
- */
 wordInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         translate();
     }
 });
 
-/**
- * Click en botones de ejemplo
- * 
- * Funcionalidad:
- * --------------
- * 1. Si está en modo IPA, cambiar automáticamente a modo palabra
- * 2. Poblar input con la palabra del ejemplo
- * 3. Ejecutar traducción automáticamente
- */
 document.querySelectorAll('.example-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-        // Si está en modo IPA, cambiar a modo palabra
         if (currentMode === 'ipa') {
             modeWordBtn.click();
         }
-        
-        // Poblar input con el texto del botón
         wordInput.value = btn.textContent.trim();
-        
-        // Traducir automáticamente
         translate();
     });
 });
@@ -324,11 +247,8 @@ document.querySelectorAll('.example-btn').forEach(btn => {
 // INICIALIZACIÓN
 // =========================
 
-/**
- * Auto-focus en el input al cargar la página
- * Mejora UX permitiendo que el usuario empiece a escribir inmediatamente
- */
 wordInput.focus();
+
 
 // =========================
 // COPIAR RESULTADO
@@ -336,7 +256,6 @@ wordInput.focus();
 
 /**
  * Copia la pronunciación en español al portapapeles.
- * Muestra feedback visual confirmando la acción.
  */
 function copyResult() {
     const text = resultSpanish.textContent;
@@ -369,10 +288,37 @@ function copyResult() {
 // =========================
 
 /**
- * Pronuncia la palabra original en inglés usando Web Speech API.
- * Sin APIs externas, funciona directo en el navegador.
+ * Carga las voces disponibles del navegador de forma asíncrona.
+ * Chrome carga las voces de manera diferida, por lo que se necesita
+ * esperar a que estén disponibles antes de intentar usarlas.
+ * 
+ * @returns {Promise<SpeechSynthesisVoice[]>}
  */
-function speakWord() {
+function getVoices() {
+    return new Promise((resolve) => {
+        const voices = speechSynthesis.getVoices();
+        if (voices.length > 0) {
+            resolve(voices);
+            return;
+        }
+        // Chrome dispara este evento cuando las voces están listas
+        speechSynthesis.onvoiceschanged = () => {
+            resolve(speechSynthesis.getVoices());
+        };
+        // Timeout de seguridad: si en 3 segundos no hay voces, continuar igual
+        setTimeout(() => resolve(speechSynthesis.getVoices()), 3000);
+    });
+}
+
+/**
+ * Pronuncia la palabra original en inglés usando Web Speech API.
+ * 
+ * Detecta correctamente si el navegador soporta audio:
+ * - Sin speechSynthesis → navegador sin soporte (Firefox antiguo, etc.)
+ * - Brave bloquea speechSynthesis por privacidad → voces vacías tras espera
+ * - Chrome/Edge → voces se cargan asincrónicamente, se espera antes de verificar
+ */
+async function speakWord() {
     const word = resultWord.textContent;
     if (!word) return;
 
@@ -380,13 +326,19 @@ function speakWord() {
         alert('Tu navegador no soporta audio. Prueba con Chrome o Edge.');
         return;
     }
-    // Brave bloquea speechSynthesis por privacidad
-    if (window.speechSynthesis && speechSynthesis.getVoices().length === 0) {
+
+    const btn = document.getElementById('audioBtnText');
+    btn.textContent = '🔊 Cargando...';
+
+    const voices = await getVoices();
+
+    // Si tras esperar no hay voces, es Brave u otro navegador restrictivo
+    if (voices.length === 0) {
+        btn.textContent = 'Escuchar';
         alert('Audio no disponible en este navegador. Prueba con Chrome o Edge.');
         return;
     }
 
-    const btn = document.getElementById('audioBtnText');
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = 'en-US';
     utterance.rate = 0.9;
