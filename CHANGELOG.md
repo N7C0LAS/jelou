@@ -2,6 +2,18 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.3.2] - 2026-02-20
+
+### Corregido
+- Doble acento en palabras con iː/uː átonas como "communication" y "education"
+  - VOWEL_RULES: iː→í y uː→ú para modo IPA directo
+  - STRESS_MAP protege vocales ya acentuadas antes de que VOWEL_RULES las toque
+  - Elimina definitivamente el doble acento en palabras largas
+
+### Mejorado
+- Tests ampliados de 41 a 46 cubriendo todos los casos corregidos
+  - Nuevos tests: vehicle, impossible, communication, education, information
+
 ## [0.3.1] - 2026-02-19
 
 ### Corregido
