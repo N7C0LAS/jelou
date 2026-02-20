@@ -18,7 +18,7 @@ Principios de diseño:
 4. Resultado pronunciable sin contexto adicional
 5. Precisión fonética sobre simplicidad
 
-Versión: 0.2.3
+Versión: 0.2.4
 Autor: Nicolás Espejo
 Proyecto: Jelou
 Licencia: MIT
@@ -28,65 +28,58 @@ Licencia: MIT
 # REGLAS FONÉTICAS
 # =========================
 
-# Reglas compuestas: Se procesan PRIMERO porque contienen secuencias
-# de múltiples símbolos IPA que deben tratarse como una unidad.
-# El orden importa: reglas más largas primero para evitar conversiones parciales.
 COMPOUND_RULES = {
-    "aɪər": "air",  # Diptongo + schwa + r: "fire" → "fair"
-    "aʊər": "aur",  # Diptongo + schwa + r: "hour" → "aur"
-    "dʒ": "y",      # Africada sonora: "job" → "yob"
-    "tʃ": "ch",     # Africada sorda: "chair" → "cher"
-    "θ": "z",       # Fricativa dental sorda: "think" → "zink"
-    "ð": "d",       # Fricativa dental sonora: "this" → "dis"
-    "ʃ": "sh",      # Fricativa postalveolar sorda: "she" → "shí"
-    "ʒ": "sh",      # Fricativa postalveolar sonora: "vision" → "vishan"
-    "eər": "er",    # Vocal + schwa + r: "care" → "ker"
+    "aɪər": "air",
+    "aʊər": "aur",
+    "dʒ": "y",
+    "tʃ": "ch",
+    "θ": "z",
+    "ð": "d",
+    "ʃ": "sh",
+    "ʒ": "sh",
+    "eər": "er",
 }
 
-# Reglas de vocales: Mapeo de vocales IPA a representación en español
+# iː → í y uː → ú siempre en VOWEL_RULES (modo IPA directo).
+# Cuando vienen de ~~STRESS~~ ya fueron convertidas por STRESS_MAP
+# y protegidas con ~~~TEMP_I~~~ / ~~~TEMP_U~~~ antes de llegar aquí.
 VOWEL_RULES = {
-    "iː": "í",   # Vocal larga: "see" → "sí"
-    "ɪ": "i",    # Vocal corta: "sit" → "sit"
-    "ɛ": "e",    # Vocal abierta: "bed" → "bed"
-    "æ": "a",    # Vocal baja frontal: "cat" → "kat"
-    "ɑ": "a",    # Vocal baja posterior: "father" → "fáder"
-    "ʌ": "a",    # Vocal media-baja: "but" → "bat"
-    "e": "e",    # Vocal media: "bed" → "bed"
-    "ə": "a",    # Schwa (vocal neutra): "about" → "abaut"
-    "ɔ": "o",    # Vocal media-baja posterior: "law" → "lo"
-    "ʊ": "u",    # Vocal alta posterior corta: "book" → "buk"
-    "aʊ": "au",  # Diptongo: "now" → "nau"
-    "oʊ": "ou",  # Diptongo: "go" → "gou"
-    "uː": "ú",   # Vocal larga: "food" → "fúd"
-    "ɝ": "er",   # Vocal r-coloreada: "bird" → "berd"
-    "ɚ": "er",   # Vocal r-coloreada débil: "better" → "beter"
+    "iː": "í",
+    "ɪ": "i",
+    "ɛ": "e",
+    "æ": "a",
+    "ɑ": "a",
+    "ʌ": "a",
+    "e": "e",
+    "ə": "a",
+    "ɔ": "o",
+    "ʊ": "u",
+    "aʊ": "au",
+    "oʊ": "ou",
+    "uː": "ú",
+    "ɝ": "er",
+    "ɚ": "er",
 }
 
-# Reglas de consonantes: Mapeo directo de consonantes IPA a español
 CONSONANT_RULES = {
-    "h": "j",    # Fricativa glotal sorda: "hello" → "jelou"
-    "ŋ": "ng",   # Nasal velar: "sing" → "sing"
-    "k": "k",    # Oclusiva velar sorda
-    "s": "s",    # Fricativa alveolar sorda
-    "z": "z",    # Fricativa alveolar sonora
-    "w": "w",    # Aproximante labio-velar
-    "r": "r",    # Aproximante alveolar
-    "l": "l",    # Aproximante lateral alveolar
-    "n": "n",    # Nasal alveolar
-    "m": "m",    # Nasal bilabial
-    "f": "f",    # Fricativa labiodental sorda
-    "v": "v",    # Fricativa labiodental sonora
-    "b": "b",    # Oclusiva bilabial sonora
-    "p": "p",    # Oclusiva bilabial sorda
-    "t": "t",    # Oclusiva alveolar sorda
-    "d": "d",    # Oclusiva alveolar sonora
-    "g": "g",    # Oclusiva velar sonora
+    "h": "j",
+    "ŋ": "ng",
+    "k": "k",
+    "s": "s",
+    "z": "z",
+    "w": "w",
+    "r": "r",
+    "l": "l",
+    "n": "n",
+    "m": "m",
+    "f": "f",
+    "v": "v",
+    "b": "b",
+    "p": "p",
+    "t": "t",
+    "d": "d",
+    "g": "g",
 }
-
-
-# =========================
-# MOTOR DE CONVERSIÓN
-# =========================
 
 
 def ipa_to_spanish(ipa: str) -> str:
@@ -95,12 +88,12 @@ def ipa_to_spanish(ipa: str) -> str:
 
     Proceso:
     --------
-    1. Procesa marcadores ~~STRESS~~ para aplicar acentos correctos
+    1. Procesa marcadores ~~STRESS~~ y protege vocales acentuadas resultantes
     2. Elimina marcas de acento estándar del IPA (ˈ ˌ)
-    3. Elimina semivocal j redundante después de dʒ (education → eyúkéishan)
-    4. Protege j temporalmente para evitar conversión prematura
+    3. Elimina semivocal j redundante después de dʒ
+    4. Protege j temporalmente
     5. Aplica reglas compuestas
-    6. Protege sh y ch creados por reglas compuestas
+    6. Protege sh, ch, í y ú ya procesados
     7. Aplica reglas de vocales
     8. Aplica reglas de consonantes
     9. Restaura marcadores temporales
@@ -118,19 +111,19 @@ def ipa_to_spanish(ipa: str) -> str:
         'zink'
         >>> ipa_to_spanish("hɛloʊ")
         'jelou'
-        >>> ipa_to_spanish("~~STRESS~~ɛdʒjuːkeɪʃʌn")
-        'eyúkéishan'
+        >>> ipa_to_spanish("ʃiː")
+        'shí'
+        >>> ipa_to_spanish("kʌmjuːnʌk~~STRESS~~eɪʃʌn")
+        'kamiunakéishan'
 
-    Cambios en v0.2.3:
-        - Solo stress primario (1) genera acento — stress secundario ignorado
-        - Múltiples stress primarios: se conserva únicamente el último
-        - Secuencia dʒj → dʒ para eliminar semivocal redundante
-        - Corrección íi→íe e ii→ie para diptongos como "vehicle"
+    Cambios en v0.2.4:
+        - iː y uː se mapean a í/ú en VOWEL_RULES (correcto para modo IPA directo)
+        - Cuando vienen de ~~STRESS~~ se protegen antes de VOWEL_RULES
+          para evitar doble acento en palabras como "communication"
     """
     stressed_ipa = ipa
 
-    # Paso 1: Procesar marcadores ~~STRESS~~ antes de normalizar
-    # Convierte ~~STRESS~~VOCAL a la vocal acentuada en español
+    # Paso 1: Procesar marcadores ~~STRESS~~
     STRESS_MAP = {
         "aʊ": "áu", "aɪ": "ái", "eɪ": "éi", "oʊ": "óu", "ɔɪ": "ói",
         "iː": "í",  "uː": "ú",
@@ -141,55 +134,56 @@ def ipa_to_spanish(ipa: str) -> str:
         stressed_ipa = stressed_ipa.replace("~~STRESS~~" + ipa_v, "~~A~~" + esp_v)
     stressed_ipa = stressed_ipa.replace("~~STRESS~~", "")
 
-    # Paso 2: Normalizar entrada
     result = stressed_ipa.lower()
     result = result.replace("ˈ", "").replace("ˌ", "")
 
-    # Paso 3: Eliminar semivocal j redundante después de dʒ
-    # Resuelve: ɛdʒjuːk → eyúkéishan (no eyiúkéishan)
-    # Debe hacerse ANTES de proteger j para que funcione correctamente
+    # Paso 1b: Proteger vocales acentuadas ya procesadas por STRESS_MAP
+    # Evita que VOWEL_RULES las duplique o modifique
+    result = result.replace("~~a~~í", "~~~TEMP_I_STRESS~~~")
+    result = result.replace("~~a~~ú", "~~~TEMP_U_STRESS~~~")
+    result = result.replace("~~a~~", "~~~TEMP_STRESS~~~")
+
+    # Paso 2: Eliminar semivocal j redundante después de dʒ
     result = result.replace("dʒj", "dʒ")
 
-    # Paso 4: Proteger /j/ IPA temporalmente
-    # Evita que se convierta a consonante antes de tiempo
+    # Paso 3: Proteger /j/ IPA temporalmente
     result = result.replace("j", "~~~TEMP_J~~~")
 
-    # Paso 5: Aplicar reglas compuestas
+    # Paso 4: Aplicar reglas compuestas
     for ipa_sound, adapted in COMPOUND_RULES.items():
         result = result.replace(ipa_sound, adapted)
 
-    # Paso 6: Proteger "sh" y "ch" creados por reglas compuestas
-    # Evita que la "h" en "sh" se convierta a "j"
+    # Paso 5: Proteger sh, ch creados por reglas compuestas
     result = result.replace("sh", "~~~TEMP_SH~~~")
     result = result.replace("ch", "~~~TEMP_CH~~~")
 
-    # Paso 7: Aplicar reglas de vocales
+    # Paso 6: Aplicar reglas de vocales
     for ipa_sound, adapted in VOWEL_RULES.items():
         result = result.replace(ipa_sound, adapted)
 
-    # Paso 8: Aplicar reglas de consonantes
+    # Paso 7: Aplicar reglas de consonantes
     for ipa_sound, adapted in CONSONANT_RULES.items():
         result = result.replace(ipa_sound, adapted)
 
-    # Paso 9: Restaurar marcadores temporales
+    # Paso 8: Restaurar todos los marcadores temporales
+    result = result.replace("~~~TEMP_I_STRESS~~~", "í")
+    result = result.replace("~~~TEMP_U_STRESS~~~", "ú")
+    result = result.replace("~~~TEMP_STRESS~~~", "")
     result = result.replace("~~~TEMP_J~~~", "i")
     result = result.replace("~~~TEMP_SH~~~", "sh")
     result = result.replace("~~~TEMP_CH~~~", "ch")
 
-    # Paso 10: Correcciones contextuales
+    # Paso 9: Correcciones contextuales
     for vocal in ["a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú"]:
         if result.endswith(f"{vocal}y"):
             result = result[:-1] + "sh"
 
     result = result.replace("pj", "pi")
 
-    # Paso 11: Correcciones fonéticas finales
+    # Paso 10: Correcciones fonéticas finales
     result = result.replace("ngk", "nk")
     result = result.replace("ngg", "ng")
-    # Vocales dobles i+i → diptongo ie (vehicle: IY+IH → víekal)
     result = result.replace("íi", "íe")
     result = result.replace("ii", "ie")
-
-    result = result.replace("~~a~~", "")
 
     return result
