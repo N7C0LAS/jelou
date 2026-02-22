@@ -151,7 +151,7 @@ def ipa_to_spanish(ipa: str) -> str:
     # Paso 3: Convertir dʒ seguido de consonante a ch
     # "vegetable" dʒt → cht → véchtabal (no véytabal)
     # Debe hacerse ANTES de proteger j y aplicar COMPOUND_RULES
-    result = re.sub(r'dʒ([^' + _VOWELS + r'])', r'ch\1', result)
+    result = re.sub(r'dʒ([^' + _VOWELS + r'~])', r'ch\1', result)
 
     # Paso 4: Proteger /j/ IPA temporalmente
     result = result.replace("j", "~~~TEMP_J~~~")
