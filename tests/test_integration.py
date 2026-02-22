@@ -81,3 +81,16 @@ def test_integration_information():
     result = translate_word("information")
     assert result['found'] is True
     assert result['spanish'] == "inferméishan"
+
+def test_integration_communication():
+    """Test palabra larga con uː átona — sin acento en u átona"""
+    result = translate_word("communication")
+    assert result['found'] is True
+    assert result['spanish'] == "kamiunakéishan"
+
+
+def test_integration_education():
+    """Test palabra con dʒj — semivocal redundante eliminada"""
+    result = translate_word("education")
+    assert result['found'] is True
+    assert result['spanish'] == "eyukéishan"

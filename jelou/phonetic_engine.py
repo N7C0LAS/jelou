@@ -18,11 +18,13 @@ Principios de diseño:
 4. Resultado pronunciable sin contexto adicional
 5. Precisión fonética sobre simplicidad
 
-Versión: 0.2.4
+Versión: 0.2.5
 Autor: Nicolás Espejo
 Proyecto: Jelou
 Licencia: MIT
 """
+
+import re
 
 # =========================
 # REGLAS FONÉTICAS
@@ -40,11 +42,11 @@ COMPOUND_RULES = {
     "eər": "er",
 }
 
-# iː → í y uː → ú siempre en VOWEL_RULES (modo IPA directo).
-# Cuando vienen de ~~STRESS~~ ya fueron convertidas por STRESS_MAP
-# y protegidas con ~~~TEMP_I~~~ / ~~~TEMP_U~~~ antes de llegar aquí.
+# iː → i y uː → u por defecto (átonas).
+# El acento se aplica únicamente via STRESS_MAP cuando hay ~~STRESS~~
+# o via translate_ipa() que inserta ~~STRESS~~ automáticamente.
 VOWEL_RULES = {
-    "iː": "í",
+    "iː": "i",   # Átona por defecto — acento solo via STRESS_MAP
     "ɪ": "i",
     "ɛ": "e",
     "æ": "a",
@@ -56,7 +58,7 @@ VOWEL_RULES = {
     "ʊ": "u",
     "aʊ": "au",
     "oʊ": "ou",
-    "uː": "ú",
+    "uː": "u",   # Átona por defecto — acento solo via STRESS_MAP
     "ɝ": "er",
     "ɚ": "er",
 }
@@ -81,6 +83,9 @@ CONSONANT_RULES = {
     "g": "g",
 }
 
+# Vocales IPA — usadas para detectar contexto consonántico
+_VOWELS = "aeiouɪʊʌɛæɑɔəɝɚ"
+
 
 def ipa_to_spanish(ipa: str) -> str:
     """
@@ -93,7 +98,7 @@ def ipa_to_spanish(ipa: str) -> str:
     3. Elimina semivocal j redundante después de dʒ
     4. Protege j temporalmente
     5. Aplica reglas compuestas
-    6. Protege sh, ch, í y ú ya procesados
+    6. Protege sh, ch creados por reglas compuestas
     7. Aplica reglas de vocales
     8. Aplica reglas de consonantes
     9. Restaura marcadores temporales
@@ -113,13 +118,11 @@ def ipa_to_spanish(ipa: str) -> str:
         'jelou'
         >>> ipa_to_spanish("ʃiː")
         'shí'
-        >>> ipa_to_spanish("kʌmjuːnʌk~~STRESS~~eɪʃʌn")
-        'kamiunakéishan'
+        >>> ipa_to_spanish("v~~STRESS~~ɛdʒtʌbʌl")
+        'véchtabal'
 
-    Cambios en v0.2.4:
-        - iː y uː se mapean a í/ú en VOWEL_RULES (correcto para modo IPA directo)
-        - Cuando vienen de ~~STRESS~~ se protegen antes de VOWEL_RULES
-          para evitar doble acento en palabras como "communication"
+    Cambios en v0.2.5:
+        - dʒ seguido de consonante → ch (vegetable: véytabal → véchtabal)
     """
     stressed_ipa = ipa
 
@@ -138,7 +141,6 @@ def ipa_to_spanish(ipa: str) -> str:
     result = result.replace("ˈ", "").replace("ˌ", "")
 
     # Paso 1b: Proteger vocales acentuadas ya procesadas por STRESS_MAP
-    # Evita que VOWEL_RULES las duplique o modifique
     result = result.replace("~~a~~í", "~~~TEMP_I_STRESS~~~")
     result = result.replace("~~a~~ú", "~~~TEMP_U_STRESS~~~")
     result = result.replace("~~a~~", "~~~TEMP_STRESS~~~")
@@ -146,26 +148,31 @@ def ipa_to_spanish(ipa: str) -> str:
     # Paso 2: Eliminar semivocal j redundante después de dʒ
     result = result.replace("dʒj", "dʒ")
 
-    # Paso 3: Proteger /j/ IPA temporalmente
+    # Paso 3: Convertir dʒ seguido de consonante a ch
+    # "vegetable" dʒt → cht → véchtabal (no véytabal)
+    # Debe hacerse ANTES de proteger j y aplicar COMPOUND_RULES
+    result = re.sub(r'dʒ([^' + _VOWELS + r'])', r'ch\1', result)
+
+    # Paso 4: Proteger /j/ IPA temporalmente
     result = result.replace("j", "~~~TEMP_J~~~")
 
-    # Paso 4: Aplicar reglas compuestas
+    # Paso 5: Aplicar reglas compuestas
     for ipa_sound, adapted in COMPOUND_RULES.items():
         result = result.replace(ipa_sound, adapted)
 
-    # Paso 5: Proteger sh, ch creados por reglas compuestas
+    # Paso 6: Proteger sh, ch creados por reglas compuestas
     result = result.replace("sh", "~~~TEMP_SH~~~")
     result = result.replace("ch", "~~~TEMP_CH~~~")
 
-    # Paso 6: Aplicar reglas de vocales
+    # Paso 7: Aplicar reglas de vocales
     for ipa_sound, adapted in VOWEL_RULES.items():
         result = result.replace(ipa_sound, adapted)
 
-    # Paso 7: Aplicar reglas de consonantes
+    # Paso 8: Aplicar reglas de consonantes
     for ipa_sound, adapted in CONSONANT_RULES.items():
         result = result.replace(ipa_sound, adapted)
 
-    # Paso 8: Restaurar todos los marcadores temporales
+    # Paso 9: Restaurar todos los marcadores temporales
     result = result.replace("~~~TEMP_I_STRESS~~~", "í")
     result = result.replace("~~~TEMP_U_STRESS~~~", "ú")
     result = result.replace("~~~TEMP_STRESS~~~", "")
@@ -173,17 +180,18 @@ def ipa_to_spanish(ipa: str) -> str:
     result = result.replace("~~~TEMP_SH~~~", "sh")
     result = result.replace("~~~TEMP_CH~~~", "ch")
 
-    # Paso 9: Correcciones contextuales
+    # Paso 10: Correcciones contextuales
     for vocal in ["a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú"]:
         if result.endswith(f"{vocal}y"):
             result = result[:-1] + "sh"
 
     result = result.replace("pj", "pi")
 
-    # Paso 10: Correcciones fonéticas finales
+    # Paso 11: Correcciones fonéticas finales
     result = result.replace("ngk", "nk")
     result = result.replace("ngg", "ng")
     result = result.replace("íi", "íe")
     result = result.replace("ii", "ie")
 
+   
     return result

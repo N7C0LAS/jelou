@@ -130,10 +130,17 @@ def translate_ipa(ipa: str) -> str:
 
     No requiere diccionario CMU, es una conversión directa.
 
+    Manejo de stress:
+    -----------------
+    Si el IPA incluye marcadores estándar (ˈ), los convierte a ~~STRESS~~
+    internamente para que el motor fonético aplique acentos correctamente.
+    Si no hay marcadores, aplica acento a la primera vocal larga (iː, uː)
+    o a la primera vocal de la palabra.
+
     Args:
         ipa (str): Cadena en notación IPA
-                  Puede incluir marcas de acento (ˈ, ˌ) que serán ignoradas
-                  Ejemplos: "θɪŋk", "ʃiː", "wɝld"
+                  Puede incluir marcas de acento (ˈ, ˌ)
+                  Ejemplos: "θɪŋk", "ʃiː", "wɝld", "hɛˈloʊ"
 
     Returns:
         str: Representación fonética en español
@@ -141,20 +148,29 @@ def translate_ipa(ipa: str) -> str:
     Examples:
         >>> translate_ipa("θɪŋk")
         'zink'
-
         >>> translate_ipa("ʃiː")
         'shí'
-
-        >>> translate_ipa("wɝld")
-        'werld'
-
-        >>> translate_ipa("hɛˈloʊ")  # Con marca de acento
-        'helou'
-
-    Note:
-        Esta función es instantánea (no requiere búsqueda en diccionario).
-        Útil para el CLI con modo --ipa y para la web app en modo IPA directo.
+        >>> translate_ipa("fuːd")
+        'fúd'
+        >>> translate_ipa("hɛˈloʊ")
+        'jelóu'
     """
+    # Convertir marcadores estándar IPA (ˈ) a ~~STRESS~~
+    # ˈ precede la sílaba tónica en IPA estándar
+    if "ˈ" in ipa:
+        # Insertar ~~STRESS~~ después de ˈ y eliminar ˈ
+        processed = ipa.replace("ˈ", "~~STRESS~~")
+        return ipa_to_spanish(processed)
+
+    # Sin marcadores: insertar stress en vocal larga si existe
+    # Orden de prioridad: iː > uː > primera vocal
+    _LONG_VOWELS = ["iː", "uː"]
+    for lv in _LONG_VOWELS:
+        if lv in ipa:
+            stressed = ipa.replace(lv, "~~STRESS~~" + lv, 1)
+            return ipa_to_spanish(stressed)
+
+    # Sin vocal larga: procesar directamente
     return ipa_to_spanish(ipa)
 
 

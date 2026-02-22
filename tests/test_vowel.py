@@ -28,3 +28,7 @@ def test_short_u_vowel():
 def test_weak_r_vowel():
     assert ipa_to_spanish("ɚ") == "er"
     assert ipa_to_spanish("bɛtɚ") == "beter"
+
+def test_long_vowels():
+    assert ipa_to_spanish("iː") == "i"
+    assert ipa_to_spanish("uː") == "u"

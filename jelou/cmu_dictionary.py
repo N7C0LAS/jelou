@@ -153,23 +153,27 @@ class CMUDictionary:
 
         Criterios (menor puntaje = mejor variante):
         1. Cantidad de HH — menos HH es mejor (H muda entre vocales)
-        2. Cantidad de AH0 — menos AH0 es mejor (schwa reducido)
+        2. Cantidad de AH0 — menos schwa reducido es mejor
+        3. Cantidad de UW0 — menos u larga átona es mejor
 
-        Esta estrategia resuelve simultáneamente:
+        Prioridad: HH > AH0 > UW0
+        Esto resuelve simultáneamente:
         - "vehicle": variante (2) elimina HH muda → víekal ✓
-        - "education": variante (2) tiene UW en lugar de AH → eyúkéishan ✓
-        - "information": variante (2) tiene AO en lugar de ER → informéishan ✓
+        - "education": variante (2) tiene UW0 en lugar de AH0 → eyúkéishan ✓
+        - "february": variante (1) tiene menos AH0 → fébiaweri ✓
 
         Args:
             arpabet (str): Secuencia de fonemas ARPABET
 
         Returns:
-            tuple: (hh_count, ah0_count) — menor es mejor
+            tuple: (hh_count, ah0_count, uw0_count) — menor es mejor
         """
         tokens = arpabet.upper().split()
         hh_count = tokens.count("HH")
         ah0_count = tokens.count("AH0")
-        return (hh_count, ah0_count)
+        uw0_count = tokens.count("UW0")
+        return (hh_count, ah0_count, uw0_count)
+    
 
     def _load_from_file(self, filepath: Path) -> None:
         """
@@ -359,3 +363,4 @@ def lookup_word_with_stress(word: str) -> Optional[str]:
     if _cmu_dict is None:
         _cmu_dict = get_dictionary()
     return _cmu_dict.lookup_with_stress(word)
+

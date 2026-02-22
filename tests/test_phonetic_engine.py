@@ -3,8 +3,8 @@ from jelou.phonetic_engine import ipa_to_spanish
 def test_basic_words():
     assert ipa_to_spanish("θɪŋk") == "zink"
     assert ipa_to_spanish("ðɪs") == "dis"
-    assert ipa_to_spanish("ʃiː") == "shí"
-    assert ipa_to_spanish("siː") == "sí"
+    assert ipa_to_spanish("ʃiː") == "shi"
+    assert ipa_to_spanish("siː") == "si"
     assert ipa_to_spanish("dʒɑb") == "yab"
     assert ipa_to_spanish("wɝld") == "werld"
     assert ipa_to_spanish("ɪˈnʌf") == "inaf"
