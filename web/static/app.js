@@ -164,28 +164,6 @@ async function translate() {
 // =========================
 
 /**
- * Muestra el resultado de la traducción.
- */
-function showResult(data) {
-    hideAll();
-
-    resultWord.textContent = data.word;
-    resultIPA.textContent = data.ipa || '-';
-    resultSpanish.textContent = data.spanish;
-
-    if (currentMode === 'ipa') {
-        ipaSection.classList.add('hidden');
-    } else {
-        ipaSection.classList.remove('hidden');
-    }
-
-    resultDiv.classList.remove('hidden');
-    resultDiv.classList.add('fade-in');
-
-    showPronunciationGuide(data.spanish || '');
-}
-
-/**
  * Muestra un mensaje de error.
  */
 function showError(message) {
@@ -396,7 +374,26 @@ const PRONUNCIATION_TIPS = {
     'z': '💡 Z se pronuncia como la Z española — lengua entre dientes soplando'
 };
 
-function showPronunciationGuide(spanish) {
+function showResult(data) {
+    hideAll();
+
+    resultWord.textContent = data.word;
+    resultIPA.textContent = data.ipa || '-';
+    resultSpanish.textContent = data.spanish;
+
+    if (currentMode === 'ipa') {
+        ipaSection.classList.add('hidden');
+    } else {
+        ipaSection.classList.remove('hidden');
+    }
+
+    resultDiv.classList.remove('hidden');
+    resultDiv.classList.add('fade-in');
+
+    showPronunciationGuide(data.spanish || '', data.ipa || '');
+}
+
+function showPronunciationGuide(spanish, ipa = '') {
     const guide = document.getElementById('pronunciationGuide');
     const tip = document.getElementById('pronunciationTip');
     if (!guide || !tip) return;
@@ -408,7 +405,9 @@ function showPronunciationGuide(spanish) {
     if (text.includes('ng')) tips.push(PRONUNCIATION_TIPS['ng']);
     if (text.includes('er')) tips.push(PRONUNCIATION_TIPS['er']);
     if (text.includes('ch')) tips.push(PRONUNCIATION_TIPS['ch']);
-    if (text.includes('z')) tips.push(PRONUNCIATION_TIPS['z']);
+    // Mostrar guía de Z solo cuando viene de θ o ð en el IPA original
+    // En latinoamérica la Z se pronuncia como S, no como la Z española
+    if (ipa.includes('θ') || ipa.includes('ð')) tips.push(PRONUNCIATION_TIPS['z']);
 
     if (tips.length === 0) {
         guide.classList.add('hidden');
