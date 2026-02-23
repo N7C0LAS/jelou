@@ -35,8 +35,8 @@ COMPOUND_RULES = {
     "aʊər": "aur",
     "dʒ": "y",
     "tʃ": "ch",
-    "θ": "z",
-    "ð": "d",
+    "θ": "~~~TEMP_Z~~~",
+    "ð": "~~~TEMP_Z~~~",
     "ʃ": "sh",
     "ʒ": "sh",
     "eər": "er",
@@ -68,7 +68,7 @@ CONSONANT_RULES = {
     "ŋ": "ng",
     "k": "k",
     "s": "s",
-    "z": "z",
+    "z": "s",
     "w": "w",
     "r": "r",
     "l": "l",
@@ -159,6 +159,7 @@ def ipa_to_spanish(ipa: str) -> str:
     # Paso 5: Aplicar reglas compuestas
     for ipa_sound, adapted in COMPOUND_RULES.items():
         result = result.replace(ipa_sound, adapted)
+    
 
     # Paso 6: Proteger sh, ch creados por reglas compuestas
     result = result.replace("sh", "~~~TEMP_SH~~~")
@@ -179,6 +180,7 @@ def ipa_to_spanish(ipa: str) -> str:
     result = result.replace("~~~TEMP_J~~~", "i")
     result = result.replace("~~~TEMP_SH~~~", "sh")
     result = result.replace("~~~TEMP_CH~~~", "ch")
+    result = result.replace("~~~TEMP_Z~~~", "z")
 
     # Paso 10: Correcciones contextuales
     for vocal in ["a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú"]:
