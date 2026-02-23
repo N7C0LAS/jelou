@@ -2,12 +2,26 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.4.0] - 2026-02-23
+
+### Corregido
+- θ y ð siempre generan Z — z nativa inglesa → S (zone→sóun, example→igsámpal)
+- dʒ ante consonante → ch (vegetable→véchtabal)
+- dʒ ante marcador temporal no se convierte a ch (suggestion→sayéschan)
+- Días de la semana usan variante EY → dei (monday→mándei, friday→fráidei)
+- saturday con override manual → sáterdei
+- Guía contextual de Z solo aparece cuando IPA contiene θ o ð
+
+### Mejorado
+- Tests ampliados de 45 a 49 cubriendo todos los casos corregidos
+
 ## [0.3.2] - 2026-02-20
 
 ### Corregido
 - Doble acento en palabras con iː/uː átonas como "communication" y "education"
-  - VOWEL_RULES: iː→í y uː→ú para modo IPA directo
-  - STRESS_MAP protege vocales ya acentuadas antes de que VOWEL_RULES las toque
+  - VOWEL_RULES: iː→i y uː→u por defecto (átonas)
+  - translate_ipa inserta ~~STRESS~~ automáticamente en vocales largas
+  - cmu_dictionary: score con 3 criterios independientes HH > AH0 > UW0
   - Elimina definitivamente el doble acento en palabras largas
 
 ### Mejorado
@@ -18,23 +32,14 @@ Todos los cambios notables de Jelou están documentados aquí.
 
 ### Corregido
 - Transliteración de "vehicle" y palabras con H muda entre vocales
-  - cmu_dictionary: ahora guarda IPA con marcadores ~~STRESS~~ intactos
-  - cmu_dictionary: variantes (2) sobreescriben a (1) para usar pronunciación más natural del CMU Dictionary
-  - phonetic_engine: secuencia íi→íe e ii→ie para producir diptongo correcto (víekal en lugar de víkal)
 - Audio en Chrome: botón "Escuchar" mostraba alert incorrecto
-  - getVoices() ahora espera onvoiceschanged antes de verificar disponibilidad
-  - Chrome carga voces de forma asíncrona — antes se detectaba erróneamente como Brave
-  - Brave y navegadores sin voces siguen mostrando el mensaje correctamente
 - Doble acento en palabras largas como "impossible" e "information"
-  - arpabet_to_ipa: stress secundario (2) se ignora — en español no existe esa distinción
-  - cuando hay múltiples stress primarios (1), se conserva únicamente el último
-  - corrige palabras como "information" → informéishan, "communication" → kamiúnakéishan
 
 ## [0.3.0] - 2026-02-18
 
 ### Añadido
 - Modo oscuro con persistencia (localStorage)
-- Guía contextual de pronunciación — aparece automáticamente según el resultado
+- Guía contextual de pronunciación
 - Estadísticas de la app (126,052 palabras, 100% inglés americano)
 - Tagline: "Haz que el inglés hable tu idioma"
 - Google Analytics (G-85WDV9YVCP)
