@@ -193,6 +193,15 @@ const PRONUNCIATION_TIPS = {
 };
 
 function showResult(data) {
+
+    // Ocultar botón Escuchar en modo IPA
+    const audioBtn = document.getElementById('audioBtn');
+    if (currentMode === 'ipa') {
+        audioBtn.classList.add('hidden');
+    } else {
+        audioBtn.classList.remove('hidden');
+    }
+    
     hideAll();
     resultWord.textContent = data.word;
     resultIPA.textContent = data.ipa || '-';
