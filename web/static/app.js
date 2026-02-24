@@ -184,9 +184,8 @@ function toggleTheme() {
 
 const PRONUNCIATION_TIPS = {
     'sh': '💡 SH se pronuncia como cuando pides silencio: "shhhh"',
-    'ng': '💡 NG se pronuncia como la N de "banco" o "tango"',
+    'ng': '💡 NG se pronuncia como la N en "banco" o "mango" — un solo sonido nasal',
     'er': '💡 ER es un sonido único del inglés — lengua curvada hacia atrás sin pronunciar la R',
-    'ch': '💡 CH se pronuncia igual que en español: "chico"',
     'z': '💡 Z se pronuncia con la lengua entre los dientes soplando suave — como en "think"',
     'vocales': '💡 Las vocales sin acento se pronuncian suave y corto — no las marques fuerte',
     't_flap': '💡 La T entre vocales suena como una R suave y rápida — "water" suena casi "wárer"',
@@ -218,11 +217,10 @@ function showPronunciationGuide(spanish, ipa = '') {
     if (text.includes('sh')) tips.push(PRONUNCIATION_TIPS['sh']);
     if (text.includes('ng')) tips.push(PRONUNCIATION_TIPS['ng']);
     if (text.includes('er')) tips.push(PRONUNCIATION_TIPS['er']);
-    if (text.includes('ch')) tips.push(PRONUNCIATION_TIPS['ch']);
     if (ipa.includes('θ') || ipa.includes('ð')) tips.push(PRONUNCIATION_TIPS['z']);
 
-    const vowelsWithoutAccent = text.match(/[aeiou]/g) || [];
-    if (vowelsWithoutAccent.length >= 2) tips.push(PRONUNCIATION_TIPS['vocales']);
+    const vowelsWithoutAccent = (text.match(/[aeiou]/g) || []).length;
+    if (vowelsWithoutAccent >= 3) tips.push(PRONUNCIATION_TIPS['vocales']);
 
     if (/[aeiouɪʊʌɛæɑɔəɝɚ]t[aeiouɪʊʌɛæɑɔəɝɚ]/i.test(ipa)) {
         tips.push(PRONUNCIATION_TIPS['t_flap']);
