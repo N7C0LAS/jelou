@@ -2,6 +2,13 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.4.4] - 2026-02-24
+
+### Corregido
+- Modo IPA directo: ocultar botón Escuchar — no hay palabra original para pronunciar
+- Modo IPA directo: limpiar IPA externo automáticamente (slashes, puntos, ː, ˈ, ˌ)
+- Usuario puede pegar IPA de cualquier diccionario externo sin errores
+
 ## [0.4.3] - 2026-02-24
 
 ### Mejorado
