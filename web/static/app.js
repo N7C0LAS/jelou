@@ -186,10 +186,10 @@ const PRONUNCIATION_TIPS = {
     'sh': '💡 SH se pronuncia como cuando pides silencio: "shhhh"',
     'ng': '💡 NG se pronuncia como la N en "banco" o "mango" — un solo sonido nasal',
     'er': '💡 ER es un sonido único del inglés — lengua curvada hacia atrás sin pronunciar la R',
-    'z': '💡 Z se pronuncia con la lengua entre los dientes soplando suave — como en "think"',
+    'z': '💡 Z se pronuncia con la lengua entre los dientes soplando suave — como la pronuncian los españoles',
     'vocales': '💡 Las vocales sin acento se pronuncian suave y corto — no las marques fuerte',
     't_flap': '💡 La T entre vocales puede sonar como una R suave — pronunciarla así suena más natural',
-    'y_fuerte': '💡 La Y se pronuncia fuerte y soplada — como la Y argentina en "yo"',
+    'y_fuerte': '💡 La Y se pronuncia fuerte y con fricción — como la pronuncian los argentinos',
 };
 
 function showResult(data) {
