@@ -2,6 +2,19 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.4.1] - 2026-02-23
+
+### Corregido
+- Guía contextual: CH eliminado por ser redundante para hispanohablantes
+- Guía contextual: NG mensaje explica cómo suena en lugar de qué no hacer
+- Guía contextual: T flap mensaje general y opcional relacionado con R suave
+- Guía contextual: Z solo aparece cuando IPA contiene θ o ð
+- Guía contextual: vocales suaves aparece cuando hay 3+ vocales átonas
+- Guía contextual: T flap detecta correctamente vocales IPA como ɝ y ɚ
+
+### Mejorado
+- Mensajes de pronunciación más claros y coherentes para hispanohablantes
+
 ## [0.4.0] - 2026-02-23
 
 ### Corregido
