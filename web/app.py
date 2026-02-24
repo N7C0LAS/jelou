@@ -62,6 +62,13 @@ def translate():
             return jsonify({"success": False, "error": "La palabra está vacía"}), 400
 
         if mode == "ipa":
+    # Limpiar IPA externo — el usuario puede pegar de cualquier diccionario
+            word = word.strip('/')
+            word = word.replace('.', '')
+            word = word.replace('ː', '')   # eliminar marcador de longitud U+02D0
+            word = word.replace(':', '')
+            word = word.replace('ˈ', '')   # eliminar marcador de acento primario
+            word = word.replace('ˌ', '')   # eliminar marcador de acento secundario
             spanish = translate_ipa(word)
             return jsonify({
                 "success": True,
@@ -70,7 +77,7 @@ def translate():
                 "spanish": spanish,
                 "found": True,
                 "mode": "ipa",
-            })
+    })
         else:
             result = translate_word(word)
             return jsonify({
