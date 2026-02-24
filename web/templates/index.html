@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jelou - Pronunciación de Inglés para Hispanohablantes</title>
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
 
     <!-- SEO -->
@@ -43,26 +42,41 @@
 
     <header class="bg-white dark:bg-gray-800 shadow-sm transition-colors duration-300">
         <div class="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
-            <div>
-                <h1 class="text-4xl font-bold text-indigo-600 dark:text-indigo-400">🗣️ Jelou</h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-2">Haz que el inglés hable tu idioma</p>
-            </div>
-            <button id="themeToggle" onclick="toggleTheme()" class="theme-toggle p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-xl" title="Cambiar tema">
-                <span id="themeIcon">🌙</span>
+            <h1 class="text-4xl font-bold text-indigo-600 dark:text-indigo-400">Jelou</h1>
+            <button id="themeToggle" onclick="toggleTheme()" class="theme-toggle p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" title="Cambiar tema">
+                <span id="themeIcon">
+                    <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                </span>
             </button>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-12">
+    <main class="max-w-4xl mx-auto px-4 py-8">
 
+        <!-- Tagline -->
+        <div class="text-center mb-6 py-6">
+            <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 italic tracking-wide">
+                "Haz que el inglés hable tu idioma"
+            </p>
+        </div>
+
+        <!-- Formulario -->
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transition-colors duration-300">
 
             <div class="flex gap-4 mb-6">
-                <button id="modeWord" class="flex-1 py-3 px-6 rounded-lg font-semibold bg-indigo-600 text-white transition">
-                    📖 Palabra en inglés
+                <button id="modeWord" class="flex-1 py-3 px-6 rounded-lg font-semibold bg-indigo-600 text-white transition flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                    Palabra en inglés
                 </button>
-                <button id="modeIPA" class="flex-1 py-3 px-6 rounded-lg font-semibold bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-                    🔤 IPA directo
+                <button id="modeIPA" class="flex-1 py-3 px-6 rounded-lg font-semibold bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                    </svg>
+                    IPA directo
                 </button>
             </div>
 
@@ -75,8 +89,11 @@
                     autocomplete="off">
             </div>
 
-            <button id="translateBtn" class="w-full bg-indigo-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 transition shadow-lg hover:shadow-xl">
-                ✨ Traducir
+            <button id="translateBtn" class="w-full bg-indigo-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"/>
+                </svg>
+                Transliterar
             </button>
 
             <div id="result" class="mt-8 hidden">
@@ -90,17 +107,22 @@
                         <p id="resultIPA" class="text-xl text-gray-700 dark:text-gray-300 font-mono"></p>
                     </div>
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md transition-colors duration-300">
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">🎯 Pronunciación en español:</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Pronunciación en español:</p>
                         <p id="resultSpanish" class="text-4xl font-bold text-indigo-600 dark:text-indigo-400"></p>
                         <div class="mt-4 flex gap-3">
                             <button id="copyBtn" onclick="copyResult()" class="flex items-center gap-2 px-4 py-2 bg-indigo-100 dark:bg-indigo-900 hover:bg-indigo-200 dark:hover:bg-indigo-800 text-indigo-700 dark:text-indigo-300 rounded-lg font-semibold transition text-sm">
-                                📋 <span id="copyBtnText">Copiar</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                                <span id="copyBtnText">Copiar</span>
                             </button>
                             <button id="audioBtn" onclick="speakWord()" class="flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900 hover:bg-green-200 dark:hover:bg-green-800 text-green-700 dark:text-green-300 rounded-lg font-semibold transition text-sm">
-                                🔊 <span id="audioBtnText">Escuchar</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 6v12m0 0l-3-3m3 3l3-3M9 12H3"/>
+                                </svg>
+                                <span id="audioBtnText">Escuchar</span>
                             </button>
                         </div>
-                        <!-- Guía contextual inline -->
                         <div id="pronunciationGuide" class="mt-4 hidden">
                             <p id="pronunciationTip" class="text-xs text-gray-500 dark:text-gray-400 italic leading-relaxed"></p>
                         </div>
@@ -111,7 +133,7 @@
             <div id="error" class="mt-8 hidden">
                 <div class="bg-red-50 dark:bg-red-900 border-2 border-red-200 dark:border-red-700 rounded-xl p-4 transition-colors duration-300">
                     <p class="text-red-700 dark:text-red-300">
-                        <span class="font-bold">❌ Error:</span>
+                        <span class="font-bold">Error:</span>
                         <span id="errorMessage"></span>
                     </p>
                 </div>
@@ -119,25 +141,34 @@
 
             <div id="loading" class="mt-8 hidden text-center">
                 <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent"></div>
-                <p class="text-gray-600 dark:text-gray-400 mt-4">Traduciendo...</p>
+                <p class="text-gray-600 dark:text-gray-400 mt-4">Transliterando...</p>
             </div>
 
         </div>
 
         <!-- Estadísticas -->
-        <div class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-colors duration-300">
+        <div class="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-colors duration-300">
             <div class="grid grid-cols-3 gap-4 text-center">
                 <div class="p-4">
+                    <svg class="w-6 h-6 mx-auto text-indigo-600 dark:text-indigo-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
                     <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">126,052</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">📚 palabras disponibles</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">palabras disponibles</p>
                 </div>
                 <div class="p-4 border-x border-gray-200 dark:border-gray-700">
+                    <svg class="w-6 h-6 mx-auto text-indigo-600 dark:text-indigo-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
                     <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">100%</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">🌎 inglés americano</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">inglés americano</p>
                 </div>
                 <div class="p-4">
-                    <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">⚡</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">traducción instantánea</p>
+                    <svg class="w-6 h-6 mx-auto text-indigo-600 dark:text-indigo-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">&lt; 1s</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">respuesta</p>
                 </div>
             </div>
         </div>
