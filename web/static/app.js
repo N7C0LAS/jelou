@@ -188,7 +188,7 @@ const PRONUNCIATION_TIPS = {
     'er': '💡 ER es un sonido único del inglés — lengua curvada hacia atrás sin pronunciar la R',
     'z': '💡 Z se pronuncia con la lengua entre los dientes soplando suave — como en "think"',
     'vocales': '💡 Las vocales sin acento se pronuncian suave y corto — no las marques fuerte',
-    't_flap': '💡 La T entre vocales suena como una R suave y rápida — "water" suena casi "wárer"',
+    't_flap': '💡 La T entre vocales puede sonar como una R suave — pronunciarla así suena más natural',
 };
 
 function showResult(data) {
