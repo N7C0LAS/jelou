@@ -2,6 +2,12 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.4.3] - 2026-02-24
+
+### Mejorado
+- Guía de pronunciación: nuevo tip para Y fuerte (dʒ) — aparece en palabras como "knowledgeable", "job", "june"
+- Guía de pronunciación: mensaje de Z actualizado referenciando pronunciación española
+
 ## [0.4.2] - 2026-02-24
 
 ### Mejorado
