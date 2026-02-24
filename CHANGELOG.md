@@ -2,6 +2,15 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.4.2] - 2026-02-24
+
+### Mejorado
+- Tagline como eslogan independiente: cursiva, centrado, sin tarjeta
+- Emojis reemplazados por iconos SVG en toda la interfaz
+- Estadísticas: "instantánea" → "< 1s respuesta"
+- Botón "Traducir" → "Transliterar" — terminología más precisa
+- Ícono de luna en color indigo coherente con el diseño
+
 ## [0.4.1] - 2026-02-23
 
 ### Corregido
