@@ -1,3 +1,12 @@
+"""
+Integración con CMU Pronouncing Dictionary.
+Gestiona descarga, caché y búsqueda de pronunciaciones ARPABET → IPA.
+
+Autor: Nicolás Espejo
+Proyecto: Jelou
+Licencia: MIT
+"""
+
 import urllib.request
 from pathlib import Path
 from typing import Dict, Optional
@@ -10,12 +19,18 @@ CACHE_FILE = CACHE_DIR / "cmudict.txt"
 
 
 class CMUDictionary:
+    """
+    Gestor del CMU Pronouncing Dictionary (126,052 palabras).
+    Patrón singleton — una sola instancia en memoria.
+    Carga diferida (lazy loading) en la primera búsqueda.
+    """
 
     def __init__(self):
         self._dict: Dict[str, str] = {}
         self._loaded = False
 
     def load(self, force_download: bool = False) -> None:
+        """Carga el diccionario desde caché local o descarga si no existe."""
         if self._loaded and not force_download:
             return
         if CACHE_FILE.exists() and not force_download:
@@ -26,6 +41,7 @@ class CMUDictionary:
         self._loaded = True
 
     def _download_and_cache(self) -> None:
+        """Descarga el diccionario desde GitHub y lo guarda en ~/.jelou/"""
         print("📥 Descargando CMU Pronouncing Dictionary...")
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
         try:
@@ -38,15 +54,23 @@ class CMUDictionary:
             raise RuntimeError(f"Error descargando el diccionario CMU: {e}")
 
     def _score_variant(self, arpabet: str) -> tuple:
+        """
+        Puntaje para elegir la mejor variante CMU. Menor = mejor.
+        Criterios: HH > AH0 > UW0 (menos es mejor en cada uno).
+        """
         tokens = arpabet.upper().split()
-        hh_count = tokens.count("HH")
-        ah0_count = tokens.count("AH0")
-        uw0_count = tokens.count("UW0")
-        return (hh_count, ah0_count, uw0_count)
+        return (tokens.count("HH"), tokens.count("AH0"), tokens.count("UW0"))
 
     def _load_from_file(self, filepath: Path) -> None:
+        """
+        Carga el diccionario aplicando tres estrategias de selección:
+        - _MANUAL_OVERRIDES: pronunciaciones que el CMU no tiene correctas
+        - _PREFER_EY: días de la semana usan variante con EY → dei
+        - _score_variant: para el resto, menor score = mejor variante
+        """
         print(f"📖 Cargando diccionario desde: {filepath}")
 
+        # Días de la semana: forzar variante EY para que terminen en "dei"
         _PREFER_EY = {
             'monday', 'tuesday', 'wednesday', 'thursday',
             'friday', 'saturday', 'sunday',
@@ -56,6 +80,7 @@ class CMUDictionary:
             'fridays', 'saturdays', 'sundays'
         }
 
+        # El CMU no tiene variante con ER+EY para saturday — se define manualmente
         _MANUAL_OVERRIDES = {
             'saturday': 'S AE1 T ER0 D EY2',
             "saturday's": 'S AE1 T ER0 D EY2 Z',
@@ -101,10 +126,12 @@ class CMUDictionary:
         print(f"✅ Diccionario cargado: {len(self._dict)} palabras")
 
     def lookup_with_stress(self, word: str) -> Optional[str]:
+        """Retorna IPA con marcadores ~~STRESS~~. Para uso interno del motor."""
         self.load()
         return self._dict.get(word.lower())
 
     def lookup(self, word: str) -> Optional[str]:
+        """Retorna IPA limpio sin marcadores de stress, o None si no existe."""
         if not self._loaded:
             self.load()
         result = self._dict.get(word.lower())
@@ -120,14 +147,17 @@ _cmu_dict = CMUDictionary()
 
 
 def get_dictionary() -> CMUDictionary:
+    """Retorna la instancia singleton del diccionario."""
     return _cmu_dict
 
 
 def lookup_word(word: str) -> Optional[str]:
+    """Busca una palabra y retorna su IPA limpio o None."""
     return _cmu_dict.lookup(word)
 
 
 def lookup_word_with_stress(word: str) -> Optional[str]:
+    """Busca una palabra y retorna su IPA con marcadores de stress."""
     global _cmu_dict
     if _cmu_dict is None:
         _cmu_dict = get_dictionary()
