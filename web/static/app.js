@@ -189,6 +189,7 @@ const PRONUNCIATION_TIPS = {
     'z': '💡 Z se pronuncia con la lengua entre los dientes soplando suave — como en "think"',
     'vocales': '💡 Las vocales sin acento se pronuncian suave y corto — no las marques fuerte',
     't_flap': '💡 La T entre vocales puede sonar como una R suave — pronunciarla así suena más natural',
+    'y_fuerte': '💡 La Y se pronuncia fuerte y soplada — como la Y argentina en "yo"',
 };
 
 function showResult(data) {
@@ -218,6 +219,7 @@ function showPronunciationGuide(spanish, ipa = '') {
     if (text.includes('ng')) tips.push(PRONUNCIATION_TIPS['ng']);
     if (text.includes('er')) tips.push(PRONUNCIATION_TIPS['er']);
     if (ipa.includes('θ') || ipa.includes('ð')) tips.push(PRONUNCIATION_TIPS['z']);
+    if (ipa.includes('dʒ')) tips.push(PRONUNCIATION_TIPS['y_fuerte']);
 
     const vowelsWithoutAccent = (text.match(/[aeiou]/g) || []).length;
     if (vowelsWithoutAccent >= 3) tips.push(PRONUNCIATION_TIPS['vocales']);
