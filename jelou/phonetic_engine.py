@@ -138,5 +138,6 @@ def ipa_to_spanish(ipa: str) -> str:
     result = result.replace("ngg", "ng")
     result = result.replace("íi", "íe")
     result = result.replace("ii", "ie")
+    result = result.replace("zs", "s")
 
     return result
