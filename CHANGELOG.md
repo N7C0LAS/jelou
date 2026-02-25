@@ -2,6 +2,11 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.4.7] - 2026-02-25
+
+### Corregido
+- T flap: ahora detecta correctamente vocal larga uː antes de T — computer, future,itutor
+
 ## [0.4.6] - 2026-02-25
 
 ### Mejorado
