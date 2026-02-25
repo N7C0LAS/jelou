@@ -2,6 +2,14 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.4.5] - 2026-02-25
+
+### Mejorado
+- dʒ transliterado como 'dch' en lugar de 'y' — más preciso fonéticamente
+- job → dchob, edge → édch, knowledgeable → náladchabal
+- Tip de Y detecta 'y' en resultado en lugar de dʒ en IPA
+- Tests actualizados para nueva transliteración
+
 ## [0.4.4] - 2026-02-24
 
 ### Corregido
