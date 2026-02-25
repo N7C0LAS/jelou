@@ -224,6 +224,7 @@ function showPronunciationGuide(spanish, ipa = '') {
     const text = spanish.toLowerCase();
     const tips = [];
 
+    if (text.includes('dch')) tips.push(PRONUNCIATION_TIPS['dch']);
     if (text.includes('sh')) tips.push(PRONUNCIATION_TIPS['sh']);
     if (text.includes('ng')) tips.push(PRONUNCIATION_TIPS['ng']);
     if (text.includes('er')) tips.push(PRONUNCIATION_TIPS['er']);
@@ -235,7 +236,7 @@ function showPronunciationGuide(spanish, ipa = '') {
 
     const ipaClean = ipa.replace('ː', '');
     if (/[aeiouɪʊʌɛæɑɔəɝɚ]t[aeiouɪʊʌɛæɑɔəɝɚ]/i.test(ipaClean)) {
-    tips.push(PRONUNCIATION_TIPS['t_flap']);
+        tips.push(PRONUNCIATION_TIPS['t_flap']);
     }
 
     if (tips.length === 0) {
