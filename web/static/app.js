@@ -233,8 +233,9 @@ function showPronunciationGuide(spanish, ipa = '') {
     const vowelsWithoutAccent = (text.match(/[aeiou]/g) || []).length;
     if (vowelsWithoutAccent >= 3) tips.push(PRONUNCIATION_TIPS['vocales']);
 
-    if (/[aeiouɪʊʌɛæɑɔəɝɚ]t[aeiouɪʊʌɛæɑɔəɝɚ]/i.test(ipa)) {
-        tips.push(PRONUNCIATION_TIPS['t_flap']);
+    const ipaClean = ipa.replace('ː', '');
+    if (/[aeiouɪʊʌɛæɑɔəɝɚ]t[aeiouɪʊʌɛæɑɔəɝɚ]/i.test(ipaClean)) {
+    tips.push(PRONUNCIATION_TIPS['t_flap']);
     }
 
     if (tips.length === 0) {
