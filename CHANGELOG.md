@@ -2,6 +2,13 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.4.8] - 2026-02-25
+
+### Corregido
+- ngkz → ngz: strength transliterado como stréngz en lugar de strénkz
+- throughout → zruáut validado como correcto
+- quarter → kwórter validado como aceptable (T flap no aplicada al output para evitar regresiones)
+
 ## [0.4.7] - 2026-02-25
 
 ### Corregido
