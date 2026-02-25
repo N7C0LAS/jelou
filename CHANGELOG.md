@@ -2,6 +2,12 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.4.6] - 2026-02-25
+
+### Mejorado
+- Guía de pronunciación: tip DCH agregado para transliteración de dʒ
+- Guía de pronunciación: tip y_fuerte eliminado — ya no aplica
+
 ## [0.4.5] - 2026-02-25
 
 ### Mejorado
