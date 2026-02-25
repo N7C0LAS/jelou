@@ -183,7 +183,7 @@ function toggleTheme() {
 })();
 
 const PRONUNCIATION_TIPS = {
-    'sh': '💡 SH se pronuncia como cuando pides silencio: "shhhh"',
+    'sh': '💡 SH se pronuncia soplando aire entre los dientes — como en "show" o "sheep"',
     'ng': '💡 NG se pronuncia como la N en "banco" o "mango" — un solo sonido nasal',
     'er': '💡 ER es un sonido único del inglés — lengua curvada hacia atrás sin pronunciar la R',
     'z': '💡 Z se pronuncia con la lengua entre los dientes soplando suave — como la pronuncian los españoles',
@@ -228,7 +228,7 @@ function showPronunciationGuide(spanish, ipa = '') {
     if (text.includes('ng')) tips.push(PRONUNCIATION_TIPS['ng']);
     if (text.includes('er')) tips.push(PRONUNCIATION_TIPS['er']);
     if (ipa.includes('θ') || ipa.includes('ð')) tips.push(PRONUNCIATION_TIPS['z']);
-    if (ipa.includes('dʒ')) tips.push(PRONUNCIATION_TIPS['y_fuerte']);
+    if (text.includes('y')) tips.push(PRONUNCIATION_TIPS['y_fuerte']);
 
     const vowelsWithoutAccent = (text.match(/[aeiou]/g) || []).length;
     if (vowelsWithoutAccent >= 3) tips.push(PRONUNCIATION_TIPS['vocales']);

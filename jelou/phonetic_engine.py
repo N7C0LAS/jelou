@@ -13,7 +13,7 @@ import re
 COMPOUND_RULES = {
     "aɪər": "air",
     "aʊər": "aur",
-    "dʒ": "y",
+    "dʒ": "dch",
     "tʃ": "ch",
     "θ": "~~~TEMP_Z~~~",
     "ð": "~~~TEMP_Z~~~",

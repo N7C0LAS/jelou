@@ -51,7 +51,7 @@ def test_integration_communication():
 def test_integration_education():
     result = translate_word("education")
     assert result['found'] is True
-    assert result['spanish'] == "eyukéishan"
+    assert result['spanish'] == "edchukéishan"
 
 def test_integration_information():
     result = translate_word("information")

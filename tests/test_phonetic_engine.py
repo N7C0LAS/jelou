@@ -5,7 +5,7 @@ def test_basic_words():
     assert ipa_to_spanish("ðɪs") == "zis"
     assert ipa_to_spanish("ʃiː") == "shi"
     assert ipa_to_spanish("siː") == "si"
-    assert ipa_to_spanish("dʒɑb") == "yab"
+    assert ipa_to_spanish("dʒɑb") == "dchab"
     assert ipa_to_spanish("wɝld") == "werld"
     assert ipa_to_spanish("ɪˈnʌf") == "inaf"
 
