@@ -198,6 +198,8 @@ const PRONUNCIATION_TIPS = {
 
 function showResult(data) {
 
+    updateURL(data.word);
+
     // Ocultar botón Escuchar en modo IPA
     const audioBtn = document.getElementById('audioBtn');
     if (currentMode === 'ipa') {
@@ -250,3 +252,20 @@ function showPronunciationGuide(spanish, ipa = '') {
     tip.innerHTML = tips.join('<br>');
     guide.classList.remove('hidden');
 }
+
+// URL compartible — actualizar ?w= al transliterar
+function updateURL(word) {
+    const url = new URL(window.location);
+    url.searchParams.set('w', word);
+    window.history.pushState({}, '', url);
+}
+
+// Al cargar la página, leer ?w= y transliterar automáticamente
+(function() {
+    const params = new URLSearchParams(window.location.search);
+    const word = params.get('w');
+    if (word) {
+        wordInput.value = word;
+        translate();
+    }
+})();
