@@ -2,6 +2,18 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.4.9] - 2026-02-25
+
+### Corregido
+- Eliminar referencia a tip y_fuerte inexistente en app.js
+- Validación de longitud de input (máximo 100 caracteres) en posición correcta
+- Icono de tema reemplazado por SVG consistente — elimina emoji ☀️/🌙
+
+### Mejorado
+- Estadísticas responsivas en móvil — texto y padding adaptados a pantalla pequeña
+- URL compartible ?w= — transliterar hello genera jelou.onrender.com/?w=hello
+- og:image agregada para preview en WhatsApp, Twitter y redes sociales
+
 ## [0.4.8] - 2026-02-25
 
 ### Corregido
