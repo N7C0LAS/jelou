@@ -229,7 +229,6 @@ function showPronunciationGuide(spanish, ipa = '') {
     if (text.includes('ng')) tips.push(PRONUNCIATION_TIPS['ng']);
     if (text.includes('er')) tips.push(PRONUNCIATION_TIPS['er']);
     if (ipa.includes('θ') || ipa.includes('ð')) tips.push(PRONUNCIATION_TIPS['z']);
-    if (text.includes('y')) tips.push(PRONUNCIATION_TIPS['y_fuerte']);
 
     const vowelsWithoutAccent = (text.match(/[aeiou]/g) || []).length;
     if (vowelsWithoutAccent >= 3) tips.push(PRONUNCIATION_TIPS['vocales']);
