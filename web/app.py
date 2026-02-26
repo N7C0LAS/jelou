@@ -61,6 +61,9 @@ def translate():
         if not word:
             return jsonify({"success": False, "error": "La palabra está vacía"}), 400
 
+        if len(word) > 100:
+            return jsonify({"success": False, "error": "La entrada es demasiado larga (máximo 100 caracteres)"}), 400
+
         if mode == "ipa":
     # Limpiar IPA externo — el usuario puede pegar de cualquier diccionario
             word = word.strip('/')
