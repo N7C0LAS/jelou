@@ -2,6 +2,11 @@
 
 Todos los cambios notables de Jelou están documentados aquí.
 
+## [0.5.0] - 2026-02-27
+
+### Corregido
+- Audio en Brave: reemplazar alert() por mensaje inline con instrucciones específicas para Brave
+
 ## [0.4.9] - 2026-02-25
 
 ### Corregido
@@ -14,25 +19,25 @@ Todos los cambios notables de Jelou están documentados aquí.
 - URL compartible ?w= — transliterar hello genera jelou.onrender.com/?w=hello
 - og:image agregada para preview en WhatsApp, Twitter y redes sociales
 
-## [0.4.8] - 2026-02-25
+## [0.4.8] - 2026-02-24
 
 ### Corregido
 - ngkz → ngz: strength transliterado como stréngz en lugar de strénkz
 - throughout → zruáut validado como correcto
 - quarter → kwórter validado como aceptable (T flap no aplicada al output para evitar regresiones)
 
-## [0.4.7] - 2026-02-25
+## [0.4.7] - 2026-02-24
 
 ### Corregido
 - T flap: ahora detecta correctamente vocal larga uː antes de T — computer, future,itutor
 
-## [0.4.6] - 2026-02-25
+## [0.4.6] - 2026-02-23
 
 ### Mejorado
 - Guía de pronunciación: tip DCH agregado para transliteración de dʒ
 - Guía de pronunciación: tip y_fuerte eliminado — ya no aplica
 
-## [0.4.5] - 2026-02-25
+## [0.4.5] - 2026-02-22
 
 ### Mejorado
 - dʒ transliterado como 'dch' en lugar de 'y' — más preciso fonéticamente
@@ -40,20 +45,20 @@ Todos los cambios notables de Jelou están documentados aquí.
 - Tip de Y detecta 'y' en resultado en lugar de dʒ en IPA
 - Tests actualizados para nueva transliteración
 
-## [0.4.4] - 2026-02-24
+## [0.4.4] - 2026-02-20
 
 ### Corregido
 - Modo IPA directo: ocultar botón Escuchar — no hay palabra original para pronunciar
 - Modo IPA directo: limpiar IPA externo automáticamente (slashes, puntos, ː, ˈ, ˌ)
 - Usuario puede pegar IPA de cualquier diccionario externo sin errores
 
-## [0.4.3] - 2026-02-24
+## [0.4.3] - 2026-02-19
 
 ### Mejorado
 - Guía de pronunciación: nuevo tip para Y fuerte (dʒ) — aparece en palabras como "knowledgeable", "job", "june"
 - Guía de pronunciación: mensaje de Z actualizado referenciando pronunciación española
 
-## [0.4.2] - 2026-02-24
+## [0.4.2] - 2026-02-18
 
 ### Mejorado
 - Tagline como eslogan independiente: cursiva, centrado, sin tarjeta
@@ -62,7 +67,7 @@ Todos los cambios notables de Jelou están documentados aquí.
 - Botón "Traducir" → "Transliterar" — terminología más precisa
 - Ícono de luna en color indigo coherente con el diseño
 
-## [0.4.1] - 2026-02-23
+## [0.4.1] - 2026-02-17
 
 ### Corregido
 - Guía contextual: CH eliminado por ser redundante para hispanohablantes
@@ -75,7 +80,7 @@ Todos los cambios notables de Jelou están documentados aquí.
 ### Mejorado
 - Mensajes de pronunciación más claros y coherentes para hispanohablantes
 
-## [0.4.0] - 2026-02-23
+## [0.4.0] - 2026-02-16
 
 ### Corregido
 - θ y ð siempre generan Z — z nativa inglesa → S (zone→sóun, example→igsámpal)
@@ -88,7 +93,7 @@ Todos los cambios notables de Jelou están documentados aquí.
 ### Mejorado
 - Tests ampliados de 45 a 49 cubriendo todos los casos corregidos
 
-## [0.3.2] - 2026-02-20
+## [0.3.2] - 2026-02-13
 
 ### Corregido
 - Doble acento en palabras con iː/uː átonas como "communication" y "education"
@@ -101,14 +106,14 @@ Todos los cambios notables de Jelou están documentados aquí.
 - Tests ampliados de 41 a 46 cubriendo todos los casos corregidos
   - Nuevos tests: vehicle, impossible, communication, education, information
 
-## [0.3.1] - 2026-02-19
+## [0.3.1] - 2026-02-12
 
 ### Corregido
 - Transliteración de "vehicle" y palabras con H muda entre vocales
 - Audio en Chrome: botón "Escuchar" mostraba alert incorrecto
 - Doble acento en palabras largas como "impossible" e "information"
 
-## [0.3.0] - 2026-02-18
+## [0.3.0] - 2026-02-11
 
 ### Añadido
 - Modo oscuro con persistencia (localStorage)
