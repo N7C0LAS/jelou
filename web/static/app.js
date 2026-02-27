@@ -139,8 +139,9 @@ function getVoices() {
 async function speakWord() {
     const word = resultWord.textContent;
     if (!word) return;
+    const warning = document.getElementById('audioWarning');
     if (!window.speechSynthesis) {
-        alert('Tu navegador no soporta audio. Prueba con Chrome o Edge.');
+        warning.classList.remove('hidden');
         return;
     }
     const btn = document.getElementById('audioBtnText');
@@ -148,9 +149,10 @@ async function speakWord() {
     const voices = await getVoices();
     if (voices.length === 0) {
         btn.textContent = 'Escuchar';
-        alert('Audio no disponible en este navegador. Prueba con Chrome o Edge.');
+        warning.classList.remove('hidden');
         return;
     }
+    warning.classList.add('hidden');
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = 'en-US';
     utterance.rate = 0.9;
@@ -209,6 +211,7 @@ function showResult(data) {
     }
     
     hideAll();
+    document.getElementById('audioWarning').classList.add('hidden');
     resultWord.textContent = data.word;
     resultIPA.textContent = data.ipa || '-';
     resultSpanish.textContent = data.spanish;
